@@ -30,6 +30,7 @@ function scr() {
 
 source $HOME/.antigen.zsh
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
 
 plugins=(
   git
