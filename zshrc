@@ -1,29 +1,42 @@
+#!/bin/bash
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export ZSH="/home/emil/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
 
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="agnoster"
 
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias term='gnome-terminal'
+alias term="gnome-terminal"
 alias tb="taskbook"
-alias .='source'
-alias ..='cd ..'
-alias ...='cd ../..'
+alias .="source"
+alias ..="cd .."
+alias ...="cd ../.."
+alias :q="exit" # vim moment
 
+# not used
 function scr() {
-	THEFILE="./scripts/$1"
+	THEFILE="$HOME/scripts/$1"
 	if [ ! -f $THEFILE ]; then
-		echo $THEFILE
 		touch $THEFILE
 		echo "#!/bin/sh\n" >> "$THEFILE"
 		chmod +x $THEFILE
 	fi
 	nvim $THEFILE
 }
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+	git
+	zsh-autosuggestions
+)
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,19 +64,7 @@ ENABLE_CORRECTION="true"
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-  zsh-autosuggestions
-)
-
 echo "$(date '+%H:%M:%S %Y-%m-%d')"
-
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
