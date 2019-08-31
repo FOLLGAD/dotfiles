@@ -51,14 +51,11 @@ ENABLE_CORRECTION="true"
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
 
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+source $HOME/.antigen.zsh
+antigen bundle zsh-users/zsh-autosuggestions
+
 plugins=(
   git
-  zsh-autosuggestions
 )
 
 echo "$(date '+%H:%M:%S %Y-%m-%d')"
