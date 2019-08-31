@@ -1,0 +1,123 @@
+EDITING
+
+o - insert row after and edit (O - before)
+i - insert (before in line)
+a - append (last in line)
+r - replace
+x - delete
+D - delete rest of line
+,cc - comment line
+
+while in insert-mode:
+jk - switch to normal mode
+
+MOVEMENT
+
+ctrl-O - retrace movement
+ctrl-I - redo movement
+
+u - undo (g-)
+ctrl-r - redo (g+)
+
+hjkl - move around
+w - word
+e - end
+b - prev-word
+
+alt-j/k - move line down/up
+
+<< - un-indent line
+>> - indent line
+
+CLIPBOARD
+
+y - yank/copy
+d - cut
+c - like cut but enters insert mode
+s - deletes selected char and enters insert mode
+
+p - paste
+
+<what>broooohh...</what>
+
+v - select (good for indenting for example)
+V - select line (good for deleting line)
+
+When selected area: 
+S( - surrounds selection with ()
+S$ - surrounds selection with $$
+S<span> - surrounds selection HTML-style <span></span>
+
+MOTIONS
+
+http://vimdoc.sourceforge.net/htmldoc/motion.html#operator
+
+This section uses "yank" as an example. All above clipboard operations
+can be substituted.
+
+IDENTIFIERS:
+yta - yanks all characters until "a"
+y2ta - yanks all characters until second occurance of "a"
+y$ - yanks rest of line
+yw - yanks rest of word
+yiw - yanks inner word
+yaw - yanks outer word
+yas - yanks sentence
+yy - yank line
+
+FOLDS
+
+F9 - toggle fold
+
+zf - create fold
+zo - open fold
+zc - close fold
+
+SEARCH
+
+/[query] - find (?[query] to search backwards)
+* or # - find exact word at cursor (g# to include subwords)
+n - find next of current query (N - back)
+:s/[query]/[new] - replaces one [query] with [new]
+:%s/[query]/[new] - replace all [query] with [new]
+:noh - clear search
+
+[line]gg - go to [line]
+[line]G - go to [line]
+
+PANES
+
+ctrl-<hjkl> - move focus to pane
+ctrl-<arrow> - move to tab
+
+TABS
+
+gt - next tab
+gT - prev tab
+ctrl-PgUp - next tab
+:tabedit [file] - open file in new tab
+:tabfind [file] - open file, starting from the vim variable path (~/)
+:tabonly - closes all other tabs
+
+LATEX
+
+tsd - switch between (...) and \left(...\right)
+
+FILES
+
+ctrl-e - open file tree
+
+CONFIG
+
+noremap - non-recursive mapping
+nnoremap - normal mode only
+inoremap - insert mode only
+
+<C-r> is written after a command, to execute that command.
+https://stackoverflow.com/a/11676244/6912118
+
+~/.config/nvim/init.vim
+
+SNIPPETS
+
+~/.config/nvim/UltiSnips/
