@@ -16,6 +16,7 @@ alias .="source"
 alias ..="cd .."
 alias ...="cd ../.."
 alias :q="exit" # vim moment
+alias open="xdg-open" # vim moment
 
 # not used
 function scr() {
