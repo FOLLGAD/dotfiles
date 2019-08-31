@@ -1,29 +1,39 @@
+#!/bin/bash
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export ZSH="/home/emil/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
 
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="agnoster"
 
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias term='gnome-terminal'
+alias term="gnome-terminal"
 alias tb="taskbook"
-alias .='source'
-alias ..='cd ..'
-alias ...='cd ../..'
+alias .="source"
+alias ..="cd .."
+alias ...="cd ../.."
+alias :q="exit" # vim moment
 
+# not used
 function scr() {
-	THEFILE="./scripts/$1"
+	THEFILE="$HOME/scripts/$1"
 	if [ ! -f $THEFILE ]; then
-		echo $THEFILE
 		touch $THEFILE
 		echo "#!/bin/sh\n" >> "$THEFILE"
 		chmod +x $THEFILE
 	fi
 	nvim $THEFILE
 }
+
+source $HOME/.antigen.zsh
+antigen bundle zsh-users/zsh-autosuggestions
+
+plugins=(
+  git
+)
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,16 +61,7 @@ ENABLE_CORRECTION="true"
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
 
-source $HOME/.antigen.zsh
-antigen bundle zsh-users/zsh-autosuggestions
-
-plugins=(
-  git
-)
-
 echo "$(date '+%H:%M:%S %Y-%m-%d')"
-
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
