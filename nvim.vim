@@ -4,17 +4,22 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-github-dashboard'
-Plug 'pangloss/vim-javascript'
+
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 nnoremap <C-e> :NERDTreeToggle<CR>
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
-Plug 'posva/vim-vue'
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'junegunn/seoul256.vim'
-Plug 'eagletmt/ghcmod-vim'
-Plug 'artur-shaik/vim-javacomplete2'
 
+Plug 'pangloss/vim-javascript'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'posva/vim-vue'
+
+Plug 'artur-shaik/vim-javacomplete2'
+Plug 'neovimhaskell/haskell-vim'
+
+Plug 'eagletmt/ghcmod-vim'
+
+Plug 'junegunn/seoul256.vim'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -24,7 +29,6 @@ Plug 'Shougo/unite.vim'
 Plug 'tmhedberg/SimpylFold'
 Plug 'Shougo/vimproc.vim'
 
-Plug 'neovimhaskell/haskell-vim'
 
 Plug 'tomtom/tcomment_vim'
 
@@ -77,14 +81,13 @@ Plug 'morhetz/gruvbox'
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['latex'] " Replaced by vimlatex
 
-set encoding=utf-8
 
 Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
-" 'colorscheme': 'gruvbox',
 let g:lightline = {
+	\ 'colorscheme': 'gruvbox',
 	\ 'active': {
 	\ 'left':[ [ 'mode', 'paste' ],
 	\ [ 'gitbranch', 'readonly', 'filename', 'modified' ]
@@ -146,20 +149,19 @@ function! ToggleSyntax()
 endfunction
 nnoremap <silent> ,<space> :call ToggleSyntax()<CR>
 
-command Init :find ~/.config/nvim/init.vim
-
 " Tabs
 set tabstop=4
 set softtabstop=0 noexpandtab
 set shiftwidth=4
 
+set encoding=utf-8
 " Styling
 syntax on
 set background=dark
 colorscheme gruvbox
 let g:gruvbox_termcolors = 256
-let g:gruvbox_contrast_dark = 'medium'
+" let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_bold = 1
-let g:gruvbox_italic = 0
+let g:gruvbox_italic = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
