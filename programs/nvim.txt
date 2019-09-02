@@ -64,6 +64,8 @@ yiw - yanks inner word
 yaw - yanks outer word
 yas - yanks sentence
 yy - yank line
+ciw - delete and edit inner word
+diw - delete inner word
 
 FOLDS
 
