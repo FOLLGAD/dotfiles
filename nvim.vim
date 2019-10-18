@@ -7,6 +7,7 @@ Plug 'junegunn/vim-github-dashboard'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 nnoremap <C-e> :NERDTreeToggle<CR>
+
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 
@@ -20,22 +21,24 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'eagletmt/ghcmod-vim'
 
 Plug 'junegunn/seoul256.vim'
+
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
-Plug 'Shougo/unite.vim'
 Plug 'tmhedberg/SimpylFold'
+Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim'
 
-
+" Commenting
 Plug 'tomtom/tcomment_vim'
+noremap <silent> <Leader>cc :TComment<CR>
 
-" Kind of like root directory for :tabfind
+" Set the root directory for :tabfind
 set path=~
 
-" SNIPPETS https://castel.dev/post/lecture-notes-1/
+" SNIPPETS (inspired by https://castel.dev/post/lecture-notes-1/)
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
@@ -48,7 +51,8 @@ inoremap <F9> <C-O>za
 nnoremap <F9> za
 onoremap <F9> <C-C>za
 vnoremap <F9> zf
-set foldmethod=syntax
+set foldmethod=syntax " one of "syntax", "indent"
+
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
@@ -63,8 +67,6 @@ let g:tex_conceal='abdmg'
 let g:tex_fold_enabled=1
 let g:vimtex_compiler_progname = 'nvr'
 
-noremap <silent> <Leader>cc :TComment<CR>
-
 Plug 'vim-syntastic/syntastic'
 set statusline+=%#warningmsg#                                   "syntastic
 set statusline+=%{SyntasticStatuslineFlag()}                    "syntastic
@@ -78,6 +80,8 @@ let g:syntastic_check_on_wq = 0                                 "syntastic
 let g:syntastic_javascript_checkers = ['eslint']                "syntastic
 
 Plug 'morhetz/gruvbox'
+Plug 'altercation/vim-colors-solarized'
+
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['latex'] " Replaced by vimlatex
 
@@ -155,12 +159,15 @@ set softtabstop=0 noexpandtab
 set shiftwidth=4
 
 set encoding=utf-8
-" Styling
+
 syntax on
-set background=dark
+
 colorscheme gruvbox
+set termguicolors " True color support
+set background=dark
+let g:gruvbox_contrast_dark = 'soft' " hard, medium, soft
+let g:gruvbox_contrast_light = 'soft' " hard, medium, soft
 let g:gruvbox_termcolors = 256
-" let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_bold = 1
 let g:gruvbox_italic = 1
 let g:gruvbox_underline = 1
