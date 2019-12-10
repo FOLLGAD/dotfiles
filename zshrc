@@ -21,7 +21,8 @@ alias .="source"
 alias ..="cd .."
 alias ...="cd ../.."
 alias :q="exit" # vim moment
-alias open="xdg-open" # vim moment
+alias open="xdg-open"
+alias gdrive="google-drive-ocamlfuse"
 
 # not used
 function scr() {
