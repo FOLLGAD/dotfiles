@@ -39,6 +39,15 @@ plugins=(
   git
 )
 
+# History in cache directory:
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zsh/history
+
+# Edit command in vim with ctrl-e
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -64,8 +73,6 @@ plugins=(
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
-
-echo "$(date '+%H:%M:%S %Y-%m-%d')"
 
 # User configuration
 
