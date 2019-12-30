@@ -67,17 +67,7 @@ let g:tex_conceal='abdmg'
 let g:tex_fold_enabled=1
 let g:vimtex_compiler_progname = 'nvr'
 
-Plug 'vim-syntastic/syntastic'
-set statusline+=%#warningmsg#                                   "syntastic
-set statusline+=%{SyntasticStatuslineFlag()}                    "syntastic
-set statusline+=%*                                              "syntastic
-
-let g:syntastic_quiet_messages = { "type": "style" }		"syntastic
-let g:syntastic_always_populate_loc_list = 1                    "syntastic
-let g:syntastic_auto_loc_list = 1                               "syntastic
-let g:syntastic_check_on_open = 1                               "syntastic
-let g:syntastic_check_on_wq = 0                                 "syntastic
-let g:syntastic_javascript_checkers = ['eslint']                "syntastic
+Plug 'dense-analysis/ale'
 
 Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
