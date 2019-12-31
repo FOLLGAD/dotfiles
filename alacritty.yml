@@ -231,7 +231,7 @@ schemes:
       white:   '0xfdf6e3' # base3
 
 # Colors (change this to *dark or *light to change color)
-colors: *dark
+colors: *light
 
   # Dim colors
   #
