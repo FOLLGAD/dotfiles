@@ -41,9 +41,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
-" Idk tbh
-Plug 'Shougo/denite.vim'
-
 " Commenting
 Plug 'tomtom/tcomment_vim'
 noremap <silent> <Leader>cc :TComment<CR>
@@ -84,8 +81,8 @@ Plug 'itchyny/lightline.vim'
 call plug#end()
 
 let g:lightline = {
-	\ 'colorscheme': 'gruvbox'
-    \ }
+	\ 'colorscheme': 'PaperColor'
+\ }
 set noshowmode
 
 " Better pane navigation
@@ -142,9 +139,11 @@ set encoding=utf-8
 
 syntax on
 
-colorscheme gruvbox
+colorscheme seoul256-light
 set termguicolors " True color support
 set background=light
+
+" Gruvbox settings
 let g:gruvbox_contrast_dark = 'soft' " hard, medium, soft
 let g:gruvbox_contrast_light = 'hard' " hard, medium, soft
 let g:gruvbox_termcolors = 256
