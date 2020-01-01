@@ -14,7 +14,6 @@ vnoremap <leader>P "+P
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-github-dashboard'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 nnoremap <C-e> :NERDTreeToggle<CR>
@@ -22,25 +21,28 @@ nnoremap <C-e> :NERDTreeToggle<CR>
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 
-Plug 'pangloss/vim-javascript'
-Plug 'mustache/vim-mustache-handlebars'
+" Vue + Pug support
 Plug 'posva/vim-vue'
+Plug 'digitaltoad/vim-pug'
 
-Plug 'artur-shaik/vim-javacomplete2'
 Plug 'neovimhaskell/haskell-vim'
-
 Plug 'eagletmt/ghcmod-vim'
+Plug 'Shougo/vimproc.vim'
 
-Plug 'junegunn/seoul256.vim'
-
+" Sensible defaults (??)
 Plug 'tpope/vim-sensible'
+
+" Git commands
 Plug 'tpope/vim-fugitive'
+
+" Surround
+" cs"' - Change surrounding "..." into '...'
+" cs'<a> - Change surrounding '...' into <a>...</a>
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
-Plug 'tmhedberg/SimpylFold'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim'
+" Idk tbh
+Plug 'Shougo/denite.vim'
 
 " Commenting
 Plug 'tomtom/tcomment_vim'
@@ -68,25 +70,15 @@ set foldnestmax=10
 set nofoldenable
 set foldlevel=2
 
-" LaTeX
-Plug 'lervag/vimtex'
-let g:tex_flavor='latex'
-let g:vimtex_view_method='zathura'
-let g:vimtex_quickfix_mode=0
-set conceallevel=1
-let g:tex_conceal='abdmg'
-let g:tex_fold_enabled=1
-let g:vimtex_compiler_progname = 'nvr'
-
+" Async linter
 Plug 'dense-analysis/ale'
 
+" Themes
 Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
+Plug 'junegunn/seoul256.vim'
 
-Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['latex'] " Replaced by vimlatex
-
-
+" Nicer-looking bottom bar
 Plug 'itchyny/lightline.vim'
 
 call plug#end()
@@ -121,6 +113,7 @@ nnoremap <S-Right> :tabnext<CR>
 inoremap jk <Esc>
 
 " Line moving like in VS code
+" Alt-<DIRECTION> - Moves line in direction
 nnoremap <A-j> :m+<CR>==
 nnoremap <A-k> :m-2<CR>==
 inoremap <A-j> <Esc>:m+1<CR>==gi
@@ -128,7 +121,7 @@ inoremap <A-k> <Esc>:m-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" Toggle syntax
+" Toggle syntax highlighting
 let s:enabled = 1
 function! ToggleSyntax()
 	if s:enabled
@@ -143,7 +136,6 @@ nnoremap <silent> ,<space> :call ToggleSyntax()<CR>
 
 " Tabs
 set tabstop=4
-set softtabstop=0 noexpandtab
 set shiftwidth=4
 
 set encoding=utf-8
@@ -152,9 +144,9 @@ syntax on
 
 colorscheme gruvbox
 set termguicolors " True color support
-set background=dark
+set background=light
 let g:gruvbox_contrast_dark = 'soft' " hard, medium, soft
-let g:gruvbox_contrast_light = 'soft' " hard, medium, soft
+let g:gruvbox_contrast_light = 'hard' " hard, medium, soft
 let g:gruvbox_termcolors = 256
 let g:gruvbox_bold = 1
 let g:gruvbox_italic = 1
