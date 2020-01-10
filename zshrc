@@ -5,13 +5,15 @@
 export EDITOR=/usr/bin/nvim
 
 source $HOME/.antigen.zsh
+antigen use oh-my-zsh
+
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen theme romkatv/powerlevel10k
-antigen apply
 
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+antigen theme robbyrussel
+
+antigen apply
 
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
@@ -23,6 +25,9 @@ alias ...="cd ../.."
 alias :q="exit" # vim moment
 alias open="xdg-open"
 alias gdrive="google-drive-ocamlfuse"
+
+# Enforce brightness by changing the brightness of all connected monitors
+alias brite="xrandr | grep ' connected' | cut -f 1 -d ' ' | xargs -I % xrandr --output % --brightness"
 
 # not used
 function scr() {
@@ -42,7 +47,7 @@ plugins=(
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history
+# HISTFILE=~/.cache/zsh/history
 
 # Edit command in vim with ctrl-e
 autoload edit-command-line; zle -N edit-command-line
