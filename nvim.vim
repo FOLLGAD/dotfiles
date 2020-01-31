@@ -119,7 +119,7 @@ let s:enabled = 1
 function! ToggleSyntax()
 	if s:enabled
 		syntax off
-        	let s:enabled = 0
+		let s:enabled = 0
 	else
 		syntax on
 		let s:enabled = 1
