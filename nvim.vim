@@ -1,9 +1,9 @@
 let mapleader = ','
 
 " " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y "+yg_
+nnoremap <leader>y "+y
 
 " " Paste from clipboard
 nnoremap <leader>p "+p
@@ -28,6 +28,9 @@ Plug 'digitaltoad/vim-pug'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'eagletmt/ghcmod-vim'
 Plug 'Shougo/vimproc.vim'
+
+set mouse=a
+set number
 
 " Sensible defaults (??)
 Plug 'tpope/vim-sensible'
