@@ -2,16 +2,16 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export EDITOR=/usr/bin/nvim
+export EDITOR=/usr/bin/kak
 
 source $HOME/.antigen.zsh
 antigen use oh-my-zsh
 
+autoload -U promptinit; promptinit
+prompt pure
+
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen theme romkatv/powerlevel10k
-
-antigen theme robbyrussel
 
 antigen apply
 
