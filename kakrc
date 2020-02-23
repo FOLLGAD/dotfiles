@@ -48,8 +48,6 @@ evaluate-commands %sh{
     fi
 }
 
-source "%val{config}/plugins/plug.kak/rc/plug.kak"
-
 plug "andeyost/plug.kak" noload config %{
 
 }
@@ -58,27 +56,47 @@ plug "ul/kak-lsp" do %{
     cargo build --release --locked
     cargo install --force --path .
 } config %{
-    set-option global lsp_completion_trigger "execute-keys 'h<a-h><a-k>\S[^\h\n,=;*(){}\[\]]\z<ret>'"
-    set-option global lsp_diagnostic_line_error_sign "!"
-    set-option global lsp_diagnostic_line_warning_sign "?"
-    hook global WinSetOption filetype=(c|cpp|rust|typescript|javascript|haskell|go) %{
-        map window user "l" ": enter-user-mode lsp<ret>" -docstring "LSP mode"
-        lsp-enable-window
+    # uncomment to enable debugging
+    # eval %sh{echo ${kak_opt_lsp_cmd} >> /tmp/kak-lsp.log}
+    # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+
+    # this is not necessary; the `lsp-enable-window` will take care of it
+    # eval %sh{${kak_opt_lsp_cmd} --kakoune -s $kak_session}
+
+    set global lsp_diagnostic_line_error_sign '║'
+    set global lsp_diagnostic_line_warning_sign '┊'
+
+    define-command ne -docstring 'go to next error/warning from lsp' %{ lsp-find-error --include-warnings }
+    define-command pe -docstring 'go to previous error/warning from lsp' %{ lsp-find-error --previous --include-warnings }
+    define-command ee -docstring 'go to current error/warning from lsp' %{ lsp-find-error --include-warnings; lsp-find-error --previous --include-warnings }
+
+    define-command lsp-restart -docstring 'restart lsp server' %{ lsp-stop; lsp-start }
+    hook global WinSetOption filetype=(c|cpp|cc|rust|javascript|typescript|haskell|go) %{
+        set-option window lsp_auto_highlight_references true
+        set-option window lsp_hover_anchor false
         lsp-auto-hover-enable
-        lsp-auto-hover-insert-mode-disable
-        set-option window lsp_hover_anchor true
-        set-face window DiagnosticError default+u
-        set-face window DiagnosticWarning default+u
+        echo -debug "Enabling LSP for filtetype %opt{filetype}"
+        lsp-enable-window
     }
+
+    hook global WinSetOption filetype=(rust) %{
+        set window lsp_server_configuration rust.clippy_preference="on"
+    }
+
     hook global WinSetOption filetype=rust %{
-        set-option window lsp_server_configuration rust.clippy_preference="on"
+        hook window BufWritePre .* %{
+            evaluate-commands %sh{
+                test -f rustfmt.toml && printf lsp-formatting-sync
+            }
+        }
     }
+
     hook global KakEnd .* lsp-exit
 }
 
-set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
-
 plug "alexherbo2/auto-pairs.kak"
+
+set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 
 map global user y '<a-|>xsel -i -b<ret>'
 
