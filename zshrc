@@ -7,38 +7,25 @@ export EDITOR=/usr/bin/kak
 source $HOME/.antigen.zsh
 antigen use oh-my-zsh
 
-autoload -U promptinit; promptinit
-prompt pure
+#autoload -U promptinit; promptinit
+# prompt pure
+antigen bundle mafredri/zsh-async
+antigen bundle sindresorhus/pure
 
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
-alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias term="gnome-terminal"
 alias tb="taskbook"
 alias .="source"
 alias ..="cd .."
 alias ...="cd ../.."
 alias :q="exit" # vim moment
 alias open="xdg-open"
-alias gdrive="google-drive-ocamlfuse"
 
 # Enforce brightness by changing the brightness of all connected monitors
 alias brite="xrandr | grep ' connected' | cut -f 1 -d ' ' | xargs -I % xrandr --output % --brightness"
-
-# not used
-function scr() {
-	THEFILE="$HOME/scripts/$1"
-	if [ ! -f $THEFILE ]; then
-		touch $THEFILE
-		echo "#!/bin/sh\n" >> "$THEFILE"
-		chmod +x $THEFILE
-	fi
-	nvim $THEFILE
-}
 
 plugins=(
   git
@@ -86,7 +73,7 @@ HIST_STAMPS="yyyy-mm-dd"
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='nvim'
+  export EDITOR='kak'
 fi
 
 # Compilation flags
@@ -105,5 +92,5 @@ export NVM_DIR="$HOME/.nvm"
 # bindkey '^e' edit-command-line
 
 # Enable vim mode
-bindkey -v
+#bindkey -v
 
