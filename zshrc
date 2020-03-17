@@ -2,18 +2,15 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export EDITOR=/usr/bin/kak
-
 source $HOME/.antigen.zsh
 antigen use oh-my-zsh
 
 #autoload -U promptinit; promptinit
 # prompt pure
-antigen bundle mafredri/zsh-async
 antigen bundle sindresorhus/pure
 
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
+# antigen bundle zsh-users/zsh-autosuggestions
+# antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
@@ -73,7 +70,7 @@ HIST_STAMPS="yyyy-mm-dd"
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='kak'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
