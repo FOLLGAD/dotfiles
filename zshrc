@@ -5,10 +5,6 @@
 source $HOME/.antigen.zsh
 antigen use oh-my-zsh
 
-#autoload -U promptinit; promptinit
-# prompt pure
-antigen bundle sindresorhus/pure
-
 # antigen bundle zsh-users/zsh-autosuggestions
 # antigen bundle zsh-users/zsh-syntax-highlighting
 

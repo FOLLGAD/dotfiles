@@ -1,5 +1,8 @@
 let mapleader = ','
 
+set wrap
+set linebreak
+
 " " Copy to clipboard
 vnoremap <leader>y "+y
 nnoremap <leader>Y "+yg_
