@@ -1,5 +1,9 @@
 EDITING
 
+backtrack/jump back in place
+ctrl-o - Go to prev place
+ctrl-i - Go to next place (undo previous action)
+
 o - insert row after and edit (O - before)
 i - insert (before in line)
 a - append (last in line)
@@ -117,6 +121,9 @@ inoremap - insert mode only
 
 <C-r> is written after a command, to execute that command.
 https://stackoverflow.com/a/11676244/6912118
+
+<C-O> can be used to temporarily go out of edit mode until the next command is executed.
+https://vim.fandom.com/wiki/Mapping_keys_in_Vim_-_Tutorial_(Part_1)#Creating_keymaps
 
 ~/.config/nvim/init.vim
 

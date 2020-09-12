@@ -1,0 +1,5 @@
+{
+	"explorer.icon.enableNerdfont": true,
+    "eslint.autoFix": true,
+    "eslint.autoFixOnSave": true
+}
