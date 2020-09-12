@@ -2,6 +2,12 @@ if [ -f ~/.zshrc_local ]; then
 	source ~/.zshrc_local
 fi
 
+# Use the silver surfer (ag) for fzf
+# Ignores .gitignore:d files and other stuff
+if [ -x "$(command -v ag)" ]; then
+	export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+fi
+
 source ~/.antigen.zsh
 
 eval "$(starship init zsh)"
@@ -71,3 +77,4 @@ export NVM_DIR="$HOME/.nvm"
 # Enable vim mode
 #bindkey -v
 
+source /usr/share/nvm/init-nvm.sh
