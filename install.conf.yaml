@@ -5,11 +5,14 @@
 - clean: ['~']
 
 - link:
+    ~/.dotfiles: ""
     ~/.tmux.conf: tmux.conf
-    ~/.config/nvim: nvim
     ~/.zshrc: zshrc
+    ~/.config/nvim: nvim
+    ~/.config/kitty: kitty
 
-- create:
+- create: ['~/.config']
+
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
