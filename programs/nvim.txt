@@ -1,3 +1,7 @@
+EX COMMANDS
+
+:t 7 - copies current line to after line 7
+
 EDITING
 
 backtrack/jump back in place

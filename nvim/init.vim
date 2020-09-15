@@ -6,7 +6,7 @@ autocmd BufReadPost \*
     \\ |   exe "normal! g\`\\""
     \\ | endif
 
-command Date :r !date "+\%F \%T (\%a)"
+command! Date :r !date "+\%F \%T (\%a)"
 nnoremap <F5> :Date<CR>
 inoremap <F5> <C-O>:Date<CR>
 
@@ -23,28 +23,44 @@ vnoremap <leader>P "+P
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'cespare/vim-toml'
-Plug 'eagletmt/ghcmod-vim'
-Plug 'Shougo/vimproc.vim'
-Plug 'ActivityWatch/aw-watcher-vim'
+" Nice start-screen
+Plug 'plasticboy/vim-markdown'
+autocmd FileType markdown set conceallevel=2
+let g:vim_markdown_follow_anchor = 1
+let g:vim_markdown_conceal = 2
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_math = 1
+let g:vim_markdown_toml_frontmatter = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_autowrite = 1
+let g:vim_markdown_edit_url_in = 'tab'
+let g:vim_markdown_follow_anchor = 1
 
-" Sensible defaults (??)
+Plug 'mhinz/vim-startify'
+Plug 'cespare/vim-toml'
+Plug 'Shougo/vimproc.vim'
+Plug 'tmsvg/pear-tree'
+Plug 'ActivityWatch/aw-watcher-vim'
+" JSX syntax support
+Plug 'maxmellon/vim-jsx-pretty'
+
+" Sensible defaults
 Plug 'tpope/vim-sensible'
 
 " Git commands
 Plug 'tpope/vim-fugitive'
 
 " Surround
-" cs"' - Change Surrounding "..." into '...'
-" cs'<a> - Change Surrounding '...' into <a>...</a>
+" cs([ - Change Surrounding (...) into [...]
+" cs{<a> - Change Surrounding {...} into <a>...</a>
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
 " Commenting
 Plug 'tomtom/tcomment_vim'
+noremap <silent> <Leader>cc :TComment<CR>
 
-" Async linter
-" Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Assumes coc-explorer is installed
 nnoremap <C-e> :CocCommand explorer<CR>
@@ -56,26 +72,23 @@ Plug 'junegunn/seoul256.vim'
 " Nicer-looking bottom bar
 Plug 'itchyny/lightline.vim'
 
+" Fuzzyfind
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-noremap <silent> <Leader>cc :TComment<CR>
-
-" let g:deoplete#enable_at_startup = 1
 
 set mouse=a
 set number
 
 " Set the root directory for :tabfind
-set path=.,**
+" set path=.,**
 
 " Folding
 inoremap <F9> <C-O>za
 nnoremap <F9> za
 onoremap <F9> <C-C>za
 vnoremap <F9> zf
-set foldmethod=syntax " one of "syntax", "indent"
 
+set foldmethod=syntax " one of "syntax", "indent"
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
@@ -132,25 +145,10 @@ inoremap <A-k> <Esc>:m-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" Toggle syntax highlighting
-let s:enabled = 1
-function! ToggleSyntax()
-	if s:enabled
-		syntax off
-		let s:enabled = 0
-	else
-		syntax on
-		let s:enabled = 1
-	endif
-endfunction
-nnoremap <silent> <leader><space> :call ToggleSyntax()<CR>
-
 " Tabs
 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab autoindent smartindent
 
 set encoding=utf-8
-
-syntax on
 
 colorscheme seoul256-light
 set termguicolors " True color support
@@ -164,4 +162,3 @@ let g:gruvbox_bold = 1
 let g:gruvbox_italic = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
-
