@@ -10,6 +10,7 @@
     ~/.zshrc: zshrc
     ~/.config/nvim: nvim
     ~/.config/kitty: kitty
+    ~/.config/mpv: mpv
     ~/.config/albert: albert
 
 - create: ['~/.config']

@@ -62,6 +62,14 @@ Plug 'tomtom/tcomment_vim'
 noremap <silent> <Leader>cc :TComment<CR>
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'neoclide/coc-tsserver', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-json', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc-eslint', {'do': 'yarn install --frozen-lockfile'}
+Plug 'josa42/coc-sh', {'do': 'yarn install --frozen-lockfile'}
+Plug 'fannheyward/coc-rust-analyzer', {'do': 'yarn install --frozen-lockfile'}
+Plug 'weirongxu/coc-explorer', {'do': 'yarn install --frozen-lockfile'}
+
 " Assumes coc-explorer is installed
 nnoremap <C-e> :CocCommand explorer<CR>
 
