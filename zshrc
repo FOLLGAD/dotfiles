@@ -1,3 +1,10 @@
+# For searching my docs :)
+docs() {
+    if [ -n "$1" ]; then
+        rg -S -C 3 $1 ~/docs;
+    fi
+}
+
 if [ -f ~/.zshrc_local ]; then
 	source ~/.zshrc_local
 fi
