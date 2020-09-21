@@ -11,9 +11,9 @@
     ~/.config/nvim: nvim
     ~/.config/kitty: kitty
     ~/.config/albert: albert
+    ~/.config/starship.toml: starship/starship.toml
 
 - create: ['~/.config']
-
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

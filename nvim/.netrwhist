@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =9
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/emil/.dotfiles'
 let g:netrw_dirhist_9='/home/emil/git/dotfiles/nvim'
 let g:netrw_dirhist_8='/home/emil'
 let g:netrw_dirhist_7='/home/emil/git/carp-app/client'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_4='/home/emil/git/carp-app/client/src'
 let g:netrw_dirhist_3='/home/emil/git/carp-app/client'
 let g:netrw_dirhist_2='/home/emil/git/carp-app/client/src'
 let g:netrw_dirhist_1='/home/emil/git/carp-app/client'
-let g:netrw_dirhist_0='/home/emil/git/carp-app/src'

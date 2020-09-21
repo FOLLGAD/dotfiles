@@ -41,7 +41,7 @@ Plug 'mhinz/vim-startify'
 Plug 'cespare/vim-toml'
 Plug 'Shougo/vimproc.vim'
 Plug 'tmsvg/pear-tree'
-Plug 'ActivityWatch/aw-watcher-vim'
+" Plug 'ActivityWatch/aw-watcher-vim'
 " JSX syntax support
 Plug 'maxmellon/vim-jsx-pretty'
 
@@ -67,8 +67,8 @@ nnoremap <C-e> :CocCommand explorer<CR>
 
 " Themes
 Plug 'morhetz/gruvbox'
-Plug 'altercation/vim-colors-solarized'
-Plug 'junegunn/seoul256.vim'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'junegunn/seoul256.vim'
 " Nicer-looking bottom bar
 Plug 'itchyny/lightline.vim'
 
@@ -150,7 +150,7 @@ set tabstop=4 shiftwidth=4 softtabstop=4 expandtab autoindent smartindent
 
 set encoding=utf-8
 
-colorscheme seoul256-light
+colorscheme gruvbox
 set termguicolors " True color support
 set background=light
 

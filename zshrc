@@ -65,16 +65,9 @@ fi
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
 # # Edit command in vim with ctrl-e
 # autoload edit-command-line; zle -N edit-command-line
 # bindkey '^e' edit-command-line
 
 # Enable vim mode
 #bindkey -v
-
-source /usr/share/nvm/init-nvm.sh
