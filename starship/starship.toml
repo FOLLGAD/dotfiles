@@ -1,11 +1,8 @@
+[git_branch]
+symbol = " "
 
 [battery]
 full_symbol = "🔋"
 charging_symbol = "⚡️"
 discharging_symbol = "💀"
-
-
-[character]
-error_symbol = "✗"
-use_symbol_for_status = true
 
