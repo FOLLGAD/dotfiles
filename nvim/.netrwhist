@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =9
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/emil/git/gamp/src'
 let g:netrw_dirhist_9='/home/emil/docs'
 let g:netrw_dirhist_8='/home/emil/git/dotfiles/kitty'
 let g:netrw_dirhist_7='/home/emil/git/yt-ab-test/src'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_4='/home/emil/git/dotfiles/nvim'
 let g:netrw_dirhist_3='/home/emil/.netlify'
 let g:netrw_dirhist_2='/home/emil/docs/documentation'
 let g:netrw_dirhist_1='/home/emil/docs'
-let g:netrw_dirhist_0='/home/emil/go/bin'
