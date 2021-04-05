@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/emil/git/dotfiles/nvim'
+let g:netrw_dirhist_1='/home/emil/git/dotfiles/nvim/after'
+let g:netrw_dirhist_0='/home/emil/git/dotfiles/nvim'
+let g:netrw_dirhist_9='/home/emil/git/dotfiles/nvim/plugin'
+let g:netrw_dirhist_8='/home/emil/git/dotfiles/nvim'
+let g:netrw_dirhist_7='/home/emil/git/bogit/templates'
+let g:netrw_dirhist_6='/home/emil/git/bogit/articles'
+let g:netrw_dirhist_5='/home/emil/git/bogit/data'
+let g:netrw_dirhist_4='/home/emil/git/depict.ai/.githooks'
+let g:netrw_dirhist_3='/home/emil'
