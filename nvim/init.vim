@@ -1,14 +1,18 @@
 let mapleader = ','
 set wrap linebreak
 
+set nocompatible
+filetype plugin on
+syntax on
+
 autocmd BufReadPost \*
     \\ if line("'\\"") >= 1 && line("'\\"") <= line("$") && &ft !\~# 'commit'
     \\ |   exe "normal! g\`\\""
     \\ | endif
 
-command! Date :r !date "+\%F \%T (\%a)"
-nnoremap <F5> :Date<CR>
-inoremap <F5> <C-O>:Date<CR>
+command! Date :r !date "+\%F \%T (\%a)" | tr -d '\\n'
+nnoremap <F5> i<C-R>=strftime("%Y-%m-%d %H:%M (%a)")<CR><Esc>
+inoremap <F5> <C-R>=strftime("%Y-%m-%d %H:%M (%a)")<CR>
 
 " " Copy to clipboard
 vnoremap <leader>y "+y
@@ -37,10 +41,13 @@ let g:vim_markdown_autowrite = 1
 let g:vim_markdown_edit_url_in = 'tab'
 let g:vim_markdown_follow_anchor = 1
 
+Plug 'vimwiki/vimwiki'
+
 Plug 'mhinz/vim-startify'
 Plug 'cespare/vim-toml'
 Plug 'Shougo/vimproc.vim'
 Plug 'tmsvg/pear-tree'
+
 " Plug 'ActivityWatch/aw-watcher-vim'
 " JSX syntax support
 Plug 'maxmellon/vim-jsx-pretty'
@@ -141,9 +148,6 @@ nnoremap <C-Right> <C-w>l
 nnoremap <S-Left> :tabprevious<CR>
 nnoremap <S-Right> :tabnext<CR>
 
-" Esc alias
-inoremap jk <Esc>
-
 " Line moving like in VS code
 " Alt-<DIRECTION> - Moves line in direction
 nnoremap <A-j> :m+<CR>==
@@ -170,3 +174,4 @@ let g:gruvbox_bold = 1
 let g:gruvbox_italic = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
+
