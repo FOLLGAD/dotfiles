@@ -1,6 +1,12 @@
 {
+<<<<<<< Updated upstream
     "explorer.icon.enableNerdfont": true,
     "explorer.icon.expanded": "",
     "eslint.autoFix": true,
     "eslint.autoFixOnSave": true
+=======
+    "eslint.autoFixOnSave": true,
+    "tsserver.formatOnType":true,
+    "eslint.run":"onType"
+>>>>>>> Stashed changes
 }

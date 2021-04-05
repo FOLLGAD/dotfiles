@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
 let g:netrw_dirhistcnt =2
+<<<<<<< Updated upstream
 let g:netrw_dirhist_2='/home/emil/git/dotfiles/nvim'
 let g:netrw_dirhist_1='/home/emil/git/dotfiles/nvim/after'
 let g:netrw_dirhist_0='/home/emil/git/dotfiles/nvim'
@@ -10,3 +11,15 @@ let g:netrw_dirhist_6='/home/emil/git/bogit/articles'
 let g:netrw_dirhist_5='/home/emil/git/bogit/data'
 let g:netrw_dirhist_4='/home/emil/git/depict.ai/.githooks'
 let g:netrw_dirhist_3='/home/emil'
+=======
+let g:netrw_dirhist_2='/Users/emil/git/depict.ai/browser-tags-v2/src/cdlp'
+let g:netrw_dirhist_1='/Users/emil/git/depict.ai/browser-tags-v2/src/nordiska'
+let g:netrw_dirhist_0='/Users/emil/Movies/TV/TV Library.tvlibrary'
+let g:netrw_dirhist_9='/Users/emil/.ssh'
+let g:netrw_dirhist_8='/Users/emil/git/dotfiles/nvim/plugin'
+let g:netrw_dirhist_7='/Users/emil/.config/nvim'
+let g:netrw_dirhist_6='/Users/emil'
+let g:netrw_dirhist_5='/Users/emil/.config'
+let g:netrw_dirhist_4='/Users/emil/.config/ranger'
+let g:netrw_dirhist_3='/Users/emil/Docs/work/depict.ai'
+>>>>>>> Stashed changes

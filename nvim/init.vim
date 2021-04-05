@@ -79,6 +79,7 @@ Plug 'weirongxu/coc-explorer', {'do': 'yarn install --frozen-lockfile'}
 
 " Assumes coc-explorer is installed
 nnoremap <C-e> :CocCommand explorer<CR>
+nnoremap <C-y> :CocCommand prettier.formatFile<CR>
 
 " Themes
 Plug 'morhetz/gruvbox'
@@ -158,20 +159,21 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " Tabs
-set tabstop=4 shiftwidth=4 softtabstop=4 expandtab autoindent smartindent
+set expandtab autoindent smartindent
+set shiftwidth=2
 
 set encoding=utf-8
-
-colorscheme gruvbox
-set termguicolors " True color support
+" 
+" set termguicolors " True color support
 set background=light
 
 " Gruvbox settings
 let g:gruvbox_contrast_dark = 'soft' " hard, medium, soft
-let g:gruvbox_contrast_light = 'medium' " hard, medium, soft
-let g:gruvbox_termcolors = 256
+let g:gruvbox_contrast_light = 'hard' " hard, medium, soft
+" let g:gruvbox_termcolors = 256
 let g:gruvbox_bold = 1
 let g:gruvbox_italic = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
 
+colorscheme gruvbox
