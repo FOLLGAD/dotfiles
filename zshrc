@@ -5,6 +5,8 @@ docs() {
     fi
 }
 
+export BAT_THEME="Gruvbox (light)"
+
 if [ -f ~/.zshrc_local ]; then
 	source ~/.zshrc_local
 fi
@@ -78,3 +80,4 @@ fi
 
 # Enable vim mode
 #bindkey -v
+

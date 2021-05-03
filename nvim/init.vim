@@ -5,6 +5,8 @@ set nocompatible
 filetype plugin on
 syntax on
 
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 autocmd BufReadPost \*
     \\ if line("'\\"") >= 1 && line("'\\"") <= line("$") && &ft !\~# 'commit'
     \\ |   exe "normal! g\`\\""

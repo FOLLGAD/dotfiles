@@ -1,5 +1,7 @@
 {
-    "eslint.autoFixOnSave": true,
-    "tsserver.formatOnType":true,
-    "eslint.run":"onType"
+  "eslint.autoFixOnSave": true,
+  "tsserver.formatOnType": true,
+  "eslint.run": "onType",
+  "python.formatting.provider": "black",
+  "python.analysis.autoImportCompletions": true
 }

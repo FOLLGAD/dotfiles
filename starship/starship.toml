@@ -6,3 +6,6 @@ full_symbol = "🔋"
 charging_symbol = "⚡️"
 discharging_symbol = "💀"
 
+[aws]
+disabled=true
+
