@@ -1,6 +1,14 @@
 let mapleader = ','
 set wrap linebreak
 
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+set cursorline
+
 set nocompatible
 filetype plugin on
 syntax on
@@ -164,7 +172,7 @@ set shiftwidth=2
 
 set encoding=utf-8
 " 
-" set termguicolors " True color support
+set termguicolors " True color support
 set background=light
 
 " Gruvbox settings
