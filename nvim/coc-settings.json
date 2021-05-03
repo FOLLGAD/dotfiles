@@ -1,9 +1,0 @@
-{
-  "eslint.autoFixOnSave": true,
-  "tsserver.formatOnType": true,
-  "coc.preferences.formatOnSaveFiletypes": ["typescript", "javascript", "json"],
-  "eslint.run": "onType",
-  "python.formatting.provider": "black",
-  "python.analysis.autoImportCompletions": true,
-  "python.analysis.autoSearchPaths": true
-}
