@@ -18,8 +18,8 @@ return require('packer').startup(function(use)
     use "wbthomason/packer.nvim"
 
 	use {"tpope/vim-sensible"}
+	-- https://github.com/folke/lsp-trouble.nvim
 
-    -- TODO refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
     use {"neovim/nvim-lspconfig"}
     use {"glepnir/lspsaga.nvim"}
     use {"kabouzeid/nvim-lspinstall"}
@@ -80,7 +80,7 @@ return require('packer').startup(function(use)
 
     -- Status Line and Bufferline
     use {"glepnir/galaxyline.nvim"}
-    -- use {"romgrk/barbar.nvim"}
-	use {"akinsho/nvim-bufferline.lua"}
+    use {"romgrk/barbar.nvim"}
+	-- use {"akinsho/nvim-bufferline.lua"}
 end)
 

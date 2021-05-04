@@ -1,11 +1,5 @@
-[git_branch]
-symbol = " "
-
-[battery]
-full_symbol = "🔋"
-charging_symbol = "⚡️"
-discharging_symbol = "💀"
-
 [aws]
 disabled=true
+
+add_newline = false
 
