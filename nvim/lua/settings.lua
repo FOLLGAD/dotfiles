@@ -1,6 +1,5 @@
 vim.wo.wrap = false
 
-vim.o.mouse = "a"
 vim.o.splitbelow = true -- Horizontal splits will automatically be below
 vim.o.termguicolors = true -- set term gui colors most terminals support this
 vim.o.splitright = true -- Vertical splits will automatically be to the right
@@ -13,7 +12,7 @@ vim.o.guifont = "Hack\\ Nerd\\ Font\\ Mono"
 vim.wo.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 
 vim.o.showtabline = 2 -- Always show tabs
--- vim.o.showmode = false -- We don't need to see things like -- INSERT -- anymore
+vim.o.showmode = false -- We don't need to see things like -- INSERT -- anymore
 vim.o.backup = false -- This is recommended by coc
 vim.o.writebackup = false -- This is recommended by coc
 
