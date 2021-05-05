@@ -59,7 +59,7 @@ precmd () { vcs_info }
 
 zstyle ':vcs_info:*' formats '(%b) '
 
-export PS1='%n@%m %2~ $vcs_info_msg_0_ ${EMOJI-❌} '
+export PS1='%n@%m %2~ $vcs_info_msg_0_${EMOJI-❌} '
 
 # Vim mode prompt
 function zle-line-init zle-keymap-select {
