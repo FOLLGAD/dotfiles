@@ -73,15 +73,43 @@ return require('packer').startup(function(use)
 	}
     use {"kevinhwang91/nvim-bqf"}
 
-	use {'hoob3rt/lualine.nvim'}
+	use {'hoob3rt/lualine.nvim',
+		config = function()
+		  require('lualine').setup{
+			options = {
+			  -- theme = 'tokyonight',
+			  section_separators = {'', ''},
+			  component_separators = {'', ''},
+			  disabled_filetypes = {},
+			  icons_enabled = true,
+			},
+			sections = {
+			  lualine_a = { {'mode', upper = true} },
+			  lualine_b = { {'branch', icon = ''} },
+			  lualine_c = { {'filename', file_status = true} },
+			  lualine_x = { 'encoding', 'fileformat', 'filetype' },
+			  lualine_y = { 'progress' },
+			  lualine_z = { 'location'  },
+			},
+			inactive_sections = {
+			  lualine_a = {  },
+			  lualine_b = {  },
+			  lualine_c = { 'filename' },
+			  lualine_x = { 'location' },
+			  lualine_y = {  },
+			  lualine_z = {   }
+			},
+			extensions = { 'fzf' }
+		  }
+		end
+	}
 
     -- Icons
     use {"kyazdani42/nvim-web-devicons"}
 
     -- Status Line and Bufferline
-    use {"glepnir/galaxyline.nvim"}
-
+    -- use {"glepnir/galaxyline.nvim"}
     use {"romgrk/barbar.nvim"}
-	-- use {"akinsho/nvim-bufferline.lua"}
+    -- use {"akinsho/nvim-bufferline.lua"}
 end)
 
