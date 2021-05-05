@@ -110,6 +110,6 @@ return require('packer').startup(function(use)
     -- Status Line and Bufferline
     -- use {"glepnir/galaxyline.nvim"}
     use {"romgrk/barbar.nvim"}
-	-- use {"akinsho/nvim-bufferline.lua"}
+    -- use {"akinsho/nvim-bufferline.lua"}
 end)
 
