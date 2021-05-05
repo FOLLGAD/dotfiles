@@ -92,11 +92,7 @@ local eslint = {
     formatStdin = true
 }
 
-local tsserver_args = {}
-
-table.insert(tsserver_args, prettier)
-
-table.insert(tsserver_args, eslint)
+local tsserver_args = {prettier, eslint}
 
 -- local markdownlint = {
 --     -- TODO default to global lintrc
@@ -111,7 +107,7 @@ local markdownPandocFormat = {formatCommand = 'pandoc -f markdown -t gfm -sp --t
 require"lspconfig".efm.setup {
     -- init_options = {initializationOptions},
     cmd = {DATA_PATH .. "/lspinstall/efm/efm-langserver"},
-    init_options = {documentFormatting = true, codeAction = false},
+    init_options = {documentFormatting = true, codeAction = true},
     filetypes = {"lua", "python", "javascriptreact", "javascript", "typescript","typescriptreact","sh", "html", "css", "json", "yaml", "markdown", "vue"},
     settings = {
         rootMarkers = {".git/"},
@@ -122,12 +118,12 @@ require"lspconfig".efm.setup {
             javascript = tsserver_args,
             javascriptreact = tsserver_args,
 			typescriptreact = tsserver_args,
-            typescript = {prettier, eslint},
+            typescript = tsserver_args,
             html = {prettier},
             css = {prettier},
             json = {prettier},
             yaml = {prettier},
-            markdown = {markdownPandocFormat}
+            -- markdown = {markdownPandocFormat}
             -- javascriptreact = {prettier, eslint},
             -- javascript = {prettier, eslint},
             -- markdown = {markdownPandocFormat, markdownlint},

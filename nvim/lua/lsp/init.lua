@@ -61,9 +61,10 @@ vim.lsp.protocol.CompletionItemKind = {
     "   (TypeParameter)"
 }
 
-autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 100)
-autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 100)
-autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 100)
+vim.cmd [[autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 100)]]
+vim.cmd [[autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 100)]]
+vim.cmd [[autocmd BufWritePre *.jsx lua vim.lsp.buf.formatting_sync(nil, 100)]]
+vim.cmd [[autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync(nil, 100)]]
 
 local function documentHighlight(client, bufnr)
     -- Set autocommands conditional on server_capabilities
