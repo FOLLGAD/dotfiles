@@ -63,7 +63,7 @@ random_plant
 autoload -Uz vcs_info
 precmd () { vcs_info }
 
-zstyle ':vcs_info:*' formats '(%b) '
+zstyle ':vcs_info:*' formats '( %b) '
 
 export PS1='%n@%m %2~ $vcs_info_msg_0_${EMOJI-❌} '
 
@@ -73,6 +73,7 @@ function zle-line-init zle-keymap-select {
     # VIM_INSERT_PROMPT="%{$fg_bold[green]%} [% INS]%  %{$reset_color%}"
     VIM_INSERT_PROMPT=""
     RPS1="${${KEYMAP/vicmd/$VIM_NORMAL_PROMPT}/(main|viins)/$VIM_INSERT_PROMPT}"
+
     RPS2=$RPS1
     zle reset-prompt
 }
