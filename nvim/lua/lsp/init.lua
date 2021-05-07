@@ -100,8 +100,5 @@ for _, lsp in pairs(servers) do
 	require'lspconfig'[lsp].setup{on_attach=on_attach}
 end
 
--- Enable LSP logging
-vim.lsp.set_log_level("debug")
-
 return lsp_config
 

@@ -4,11 +4,17 @@ export LANG=en_US.UTF-8
 export EDITOR="nvim"
 export PATH="$PATH:$HOME/.local/bin"
 
-alias hg="history | sort -r | fzf" # use ctrl-R instead
+setopt menu_complete # https://unix.stackexchange.com/questions/12288/zsh-insert-completion-on-first-tab-even-if-ambiguous
+
+# alias hg="history | sort -r | fzf" # use ctrl-R instead
+alias hg="kitty +kitten hyperlinked_grep"
 alias vim=nvim
 alias .="source"
 alias ..="cd .."
 alias ...="cd ../.."
+alias gpr="git pull --rebase"
+alias today="date '+%m-%d-%Y'"
+alias now="date '+%H:%M:%S'"
 
 HIST_STAMPS="yyyy-mm-dd"
 
