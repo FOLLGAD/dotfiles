@@ -67,7 +67,7 @@ precmd () { vcs_info }
 R=$reset_color
 G=$fg_bold[green]
 PROMPT_NAME='%n@%B%F{green}%m%f%b '
-PROMPT_PATH='%U%F{red}%2~%f%u '
+PROMPT_PATH='%U%2~%u '
 
 zstyle ':vcs_info:*' check-for-changes true
 # zstyle ':vcs_info:*' formats '( %b%u%c) '
