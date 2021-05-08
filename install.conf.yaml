@@ -8,6 +8,8 @@
     ~/.dotfiles: ""
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
+    ~/.yabairc: yabairc
+    ~/.skhdrc: skhdrc
     ~/.config/nvim: nvim
     ~/.config/kitty: kitty
     ~/.config/mpv: mpv
