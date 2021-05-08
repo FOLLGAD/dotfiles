@@ -46,23 +46,17 @@ elseif O.python.formatter == 'black' then
 end
 
 -- lua
-local lua_arguments = {}
-
-local luaFormat = {
-    formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
-    formatStdin = true
-}
 
 local lua_fmt = {
     formatCommand = "luafmt --indent-count 2 --line-width 120 --stdin",
     formatStdin = true
 }
+local lua_arguments = {lua_fmt}
 
-if O.lua.formatter == 'lua-format' then
-  table.insert(lua_arguments, luaFormat)
-elseif O.lua.formatter == 'lua-fmt' then
-  table.insert(lua_arguments, lua_fmt)
-end
+-- local luaFormat = {
+--     formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
+--     formatStdin = true
+-- }
 
 -- sh
 local sh_arguments = {}

@@ -14,6 +14,9 @@ vim.cmd [[packadd packer.nvim]]
 -- Automatically recompile packages on write
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
+-- TODO:
+-- Maybe this one: https://github.com/nvim-lua/lsp-status.nvim for displaying in lua-line
+
 return require('packer').startup(function(use)
     use "wbthomason/packer.nvim"
 
@@ -73,8 +76,7 @@ return require('packer').startup(function(use)
 	}
     use {"kevinhwang91/nvim-bqf"}
 
-	use {'hoob3rt/lualine.nvim',
-	}
+	use {'hoob3rt/lualine.nvim' }
 
     -- Icons
     use {"kyazdani42/nvim-web-devicons"}
