@@ -15,6 +15,7 @@ require('e-lualine')
 require('e-nvimtree')
 require('e-tabs')
 require('e-treesitter')
+require('e-git')
 
 require('lsp')
 require('lsp.js')
