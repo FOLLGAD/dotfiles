@@ -24,6 +24,7 @@ map('x', 'J', ':move \'>+1<CR>gv-gv', {noremap = true, silent = true})
 -- Leader keybinds
 map('n', '<Leader>f', ':Telescope fd<CR>', {noremap=true,silent=true})
 map('n', '<Leader>r', ':Telescope live_grep<CR>', {noremap=true,silent=true})
+map('n', '<Leader>o', ':Telescope oldfiles<CR>', {noremap=true,silent=true})
 map('n', '<Leader>h', ':noh<CR>', {noremap=true,silent=true})
 
 map('n', '<Leader>c', ':CommentToggle<CR>', {noremap=true,silent=true})
