@@ -1,5 +1,6 @@
 vim.o.mouse = "a"
 
+vim.o.hidden = true
 vim.o.termguicolors = true
 vim.o.number = true
 vim.o.relativenumber = true

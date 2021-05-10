@@ -14,8 +14,10 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias gpr="git pull --rebase"
 alias gs="git status"
-alias today="date '+%m-%d-%Y'"
+alias today="date '+%Y-%m-%d'"
 alias now="date '+%H:%M:%S'"
+alias wttr="curl wttr.in"
+alias myip="curl ifconfig.me"
 
 HIST_STAMPS="yyyy-mm-dd"
 
@@ -76,7 +78,7 @@ zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' stagedstr '+'
 PROMPT_VCS='$vcs_info_msg_0_'
 
-export PS1=$PROMPT_NAME$PROMPT_PATH$PROMPT_VCS'${EMOJI-❌} '
+export PS1=$PROMPT_NAME$PROMPT_PATH$PROMPT_VCS$'\n''${EMOJI-❌} '
 # export RPS1='$(now)'
 
 # Vim mode prompt
