@@ -8,6 +8,13 @@ vim.o.cursorline = true
 vim.wo.number = true
 vim.o.number = true
 
+-- fold based on indentation
+vim.wo.foldmethod = "indent"
+-- don't auto-fold my shit, please
+vim.wo.foldenable = false
+-- how many folds can exist within eachother. could be higher since no autofolding
+vim.wo.foldnestmax = 5
+
 local map = vim.api.nvim_set_keymap
 
 -- Set leader to <Space>
