@@ -78,8 +78,11 @@ zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' stagedstr '+'
 PROMPT_VCS='$vcs_info_msg_0_'
 
-export PS1=$PROMPT_NAME$PROMPT_PATH$PROMPT_VCS$'\n''${EMOJI-❌} '
+export PS1=$PROMPT_NAME$PROMPT_PATH$PROMPT_VCS$'\n''%(?.%2{${EMOJI-❌}%}.%2{❌%}) '
 # export RPS1='$(now)'
+
+# GOOD PROMPT INFO: 
+# http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
 
 # Vim mode prompt
 function zle-line-init zle-keymap-select {
@@ -87,7 +90,7 @@ function zle-line-init zle-keymap-select {
     # VIM_INSERT_PROMPT="%{$fg_bold[green]%} [% INS]%  %{$reset_color%}"
     VIM_INSERT_PROMPT=""
 
-    RPS1="${${KEYMAP/vicmd/$VIM_NORMAL_PROMPT}/(main|viins)/$VIM_INSERT_PROMPT} $(now)"
+    RPS1="${${KEYMAP/vicmd/$VIM_NORMAL_PROMPT}/(main|viins)/$VIM_INSERT_PROMPT} %*"
     RPS2=$RPS1
     zle reset-prompt
 }

@@ -22,6 +22,10 @@ vim.bo.expandtab = true -- Converts tabs to spaces
 vim.bo.smartindent = true -- Makes indenting smart
 
 vim.o.conceallevel = 0 -- So that I can see `` in markdown files
+vim.o.scrolloff = 4
+
+vim.o.listchars = "tab:| ,trail:~,extends:»,precedes:«,space:·,nbsp:␣"
+vim.wo.list = true
 
 vim.cmd[[autocmd BufNewFile,BufRead *.md set wrap linebreak]]
 
