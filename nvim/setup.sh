@@ -12,5 +12,3 @@ npm i -g vscode-html-languageserver-bin bash-language-server
 
 go get github.com/mattn/efm-langserver
 
-echo `cmd`
-
