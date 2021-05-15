@@ -76,7 +76,7 @@ lspconf.on_attach = function(client, bufnr)
   buf_set_keymap("n", "<Leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
   buf_set_keymap("n", "<Leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
   buf_set_keymap("n", "<Leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-  buf_set_keymap("n", "<Leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  buf_set_keymap("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   buf_set_keymap("n", "<Leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
   buf_set_keymap("n", "<Leader>d", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
@@ -121,7 +121,16 @@ lspconf.on_attach = function(client, bufnr)
   end
 end
 
-local servers = {"pyright", "jsonls", "rust_analyzer", "clojure_lsp"}
+local servers = {
+  "bashls",
+  "vimls",
+  "pyright",
+  "jsonls",
+  "rust_analyzer",
+  "clojure_lsp",
+  "html",
+  "cssls",
+}
 for _, lsp in pairs(servers) do
   require "lspconfig"[lsp].setup {on_attach = lspconf.on_attach}
 end
