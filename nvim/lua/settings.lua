@@ -3,6 +3,7 @@ vim.wo.wrap = false
 vim.o.splitbelow = true -- Horizontal splits will automatically be below
 vim.o.termguicolors = true -- set term gui colors most terminals support this
 vim.o.splitright = true -- Vertical splits will automatically be to the right
+vim.o.undofile = true
 
 vim.o.t_Co = "256" -- Support 256 colors
 vim.o.cmdheight = 2
