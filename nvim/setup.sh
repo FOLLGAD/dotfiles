@@ -9,3 +9,5 @@ npm i -g pyright prettier eslint typescript typescript-language-server sql-langu
 
 go get github.com/mattn/efm-langserver
 
+nimble install nimlsp
+

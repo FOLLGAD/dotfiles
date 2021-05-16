@@ -130,6 +130,7 @@ local servers = {
   "clojure_lsp",
   "html",
   "cssls",
+  "nimls",
 }
 for _, lsp in pairs(servers) do
   require "lspconfig"[lsp].setup {on_attach = lspconf.on_attach}
