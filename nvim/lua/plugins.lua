@@ -58,6 +58,7 @@ return require('packer').startup(function(use)
 		end
 	}
 	use {"lewis6991/gitsigns.nvim"}
+  use {"f-person/git-blame.nvim"}
 	use {"folke/which-key.nvim"}
 	use {"windwp/nvim-autopairs",
 		config = function()
