@@ -109,10 +109,6 @@ ctrl-PgUp - next tab
 :tabfind [file] - open file, starting from the vim variable path (~/)
 :tabonly - closes all other tabs
 
-LATEX
-
-tsd - switch between (...) and \left(...\right)
-
 FILES
 
 ctrl-e - open file tree
