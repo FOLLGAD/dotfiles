@@ -27,6 +27,8 @@ vim.o.scrolloff = 4
 
 vim.o.listchars = "tab:| ,trail:~,extends:»,precedes:«,space:·,nbsp:␣"
 vim.wo.list = true
+vim.o.smartcase = true -- Smartcase
+vim.o.ignorecase = true -- Needed for smartcase to work
 
 vim.cmd[[autocmd BufNewFile,BufRead *.md set wrap linebreak]]
 
