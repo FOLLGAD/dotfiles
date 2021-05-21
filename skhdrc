@@ -84,11 +84,11 @@ alt - k : yabai -m window --focus north
 alt - j : yabai -m window --focus south
 alt - l : yabai -m window --focus east
 
-# swap managed window
-shift + alt - h : yabai -m window --swap west
-shift + alt - k : yabai -m window --swap north
-shift + alt - j : yabai -m window --swap south
-shift + alt - l : yabai -m window --swap east
+# move managed window to display
+shift + alt - h : yabai -m window --display west
+shift + alt - k : yabai -m window --display north
+shift + alt - j : yabai -m window --display south
+shift + alt - l : yabai -m window --display east
 
 # move managed window
 shift + cmd - h : yabai -m window --warp west
