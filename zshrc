@@ -19,6 +19,11 @@ alias now="date '+%H:%M:%S'"
 alias wttr="curl wttr.in"
 alias myip="curl ifconfig.me"
 
+# on linux, alias open to xdg-open
+if ! type open > /dev/null; then
+  alias open="xdg-open"
+fi
+
 HIST_STAMPS="yyyy-mm-dd"
 
 function f {
@@ -78,7 +83,7 @@ zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' stagedstr '+'
 PROMPT_VCS='$vcs_info_msg_0_'
 
-export PS1=$PROMPT_NAME$PROMPT_PATH$PROMPT_VCS$'\n''%(?.%2{${EMOJI-❌}%}.%2{❌%}) '
+PS1=$PROMPT_NAME$PROMPT_PATH$PROMPT_VCS$'\n''%(?.%2{${EMOJI-❌}%}.%2{❌%}) '
 # export RPS1='$(now)'
 
 # GOOD PROMPT INFO: 

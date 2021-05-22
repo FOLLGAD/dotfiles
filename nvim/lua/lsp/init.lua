@@ -27,6 +27,9 @@ vim.lsp.protocol.CompletionItemKind = {
   "   (TypeParameter)"
 }
 
+vim.cmd("nnoremap <silent> <Leader>i <cmd>lua vim.lsp.buf.formatting()<CR>")
+vim.cmd("vnoremap <silent> <Leader>i <cmd>lua vim.lsp.buf.range_formatting()<CR>")
+
 local nvim_lsp = require("lspconfig")
 local lspconf = {}
 lspconf.on_attach = function(client, bufnr)
@@ -56,9 +59,6 @@ lspconf.on_attach = function(client, bufnr)
     "LspDiagnosticsSignInformation",
     {texthl = "LspDiagnosticsSignInformation", text = "", numhl = "LspDiagnosticsSignInformation"}
   )
-
-  vim.cmd("nnoremap <silent> <Leader>i <cmd>lua vim.lsp.buf.formatting()<CR>")
-  vim.cmd("vnoremap <silent> <Leader>i <cmd>lua vim.lsp.buf.formatting()<CR>")
 
   vim.cmd("nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>")
   vim.cmd("nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>")
