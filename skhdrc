@@ -85,10 +85,10 @@ alt - j : yabai -m window --focus south
 alt - l : yabai -m window --focus east
 
 # move managed window to display
-shift + alt - h : yabai -m window --display west
-shift + alt - k : yabai -m window --display north
-shift + alt - j : yabai -m window --display south
-shift + alt - l : yabai -m window --display east
+shift + alt - h : yabai -m window --display west; yabai -m window --focus recent
+shift + alt - k : yabai -m window --display north; yabai -m window --focus recent
+shift + alt - j : yabai -m window --display south; yabai -m window --focus recent
+shift + alt - l : yabai -m window --display east; yabai -m window --focus recent
 
 # move managed window
 shift + cmd - h : yabai -m window --warp west
