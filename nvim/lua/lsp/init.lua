@@ -110,6 +110,7 @@ lspconf.on_attach = function(client, bufnr)
       hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
       hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
       hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+      set updatetime=300
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
@@ -119,6 +120,9 @@ lspconf.on_attach = function(client, bufnr)
       false
     )
   end
+  vim.cmd[[
+    autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
+  ]]
 end
 
 local servers = {
@@ -132,6 +136,7 @@ local servers = {
   "cssls",
   "nimls",
 }
+
 for _, lsp in pairs(servers) do
   require "lspconfig"[lsp].setup {on_attach = lspconf.on_attach}
 end

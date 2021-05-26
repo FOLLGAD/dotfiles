@@ -17,10 +17,10 @@ vim.o.showmode = false -- We don't need to see things like -- INSERT -- anymore
 vim.o.backup = false -- This is recommended by coc
 vim.o.writebackup = false -- This is recommended by coc
 
-vim.cmd('set ts=2') -- Insert 2 spaces for a tab
-vim.cmd('set sw=2') -- Change the number of space characters inserted for indentation
-vim.bo.expandtab = true -- Converts tabs to spaces
-vim.bo.smartindent = true -- Makes indenting smart
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true -- Converts tabs to spaces
+vim.o.smartindent = true -- Makes indenting smart
 
 vim.o.conceallevel = 0 -- So that I can see `` in markdown files
 vim.o.scrolloff = 4

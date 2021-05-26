@@ -18,15 +18,15 @@ vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 -- Maybe this one: https://github.com/nvim-lua/lsp-status.nvim for displaying in lua-line
 
 return require('packer').startup(function(use)
-	use "wbthomason/packer.nvim"
-
+    use "wbthomason/packer.nvim"
 	use {"sindrets/diffview.nvim"}
 	use {"tpope/vim-sensible"}
-	-- https://github.com/folke/lsp-trouble.nvim
+	use {"tpope/vim-surround"}
 
 	use {"neovim/nvim-lspconfig"}
 	use {"glepnir/lspsaga.nvim"}
 	use {"kabouzeid/nvim-lspinstall"}
+	use {"nvim-lua/lsp_extensions.nvim"}
 
 	use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
 	use {'folke/tokyonight.nvim'}
@@ -34,12 +34,17 @@ return require('packer').startup(function(use)
 	-- Telescope
 	use {"nvim-lua/popup.nvim"}
 	use {"nvim-lua/plenary.nvim"}
-	use {"nvim-telescope/telescope.nvim"}
+	use {"nvim-telescope/telescope.nvim",
+		config = function ()
+			require('telescope').setup{
+				defaults = {
+					borderchars = {'-','|','-','|','/','\\','/','\\'}
+				}
+			}
+		end
+	}
 
-	-- Autocomplete
-	use {"hrsh7th/nvim-compe"}
-	use {"hrsh7th/vim-vsnip"}
-
+	use {"nvim-lua/completion-nvim"}
 	-- Treesitter
 	use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate",
 		config = function ()
@@ -58,7 +63,7 @@ return require('packer').startup(function(use)
 		end
 	}
 	use {"lewis6991/gitsigns.nvim"}
-  use {"f-person/git-blame.nvim"}
+	use {"f-person/git-blame.nvim"}
 	use {"folke/which-key.nvim"}
 	use {"windwp/nvim-autopairs",
 		config = function()
