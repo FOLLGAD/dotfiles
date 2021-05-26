@@ -10,8 +10,8 @@ function mark {
   echo "Added to markfile"
 }
 function gomark {
-  A=$(rg "$1" "$MARKFILE") | cut -d ":" -f "2-"
-  pushd $A
+  A=$(rg ^"$1": "$MARKFILE" | cut -d ":" -f "2-")
+  cd $A
   echo "Welcome to $1."
 }
 
