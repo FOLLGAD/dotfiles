@@ -14,6 +14,9 @@ function gomark {
   cd $A
   echo "Welcome to $1."
 }
+function _gomark {
+  COMPREPLY=$(cat "$MARKFILE" | cut -d ":" -f 1)
+}
 
 setopt menu_complete # https://unix.stackexchange.com/questions/12288/zsh-insert-completion-on-first-tab-even-if-ambiguous
 
@@ -118,3 +121,5 @@ zle -N zle-keymap-select
 # Programs
 
 eval "$(direnv hook zsh)"
+
+complete -F _gomark gomark
