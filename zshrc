@@ -4,6 +4,17 @@ export LANG=en_US.UTF-8
 export EDITOR="nvim"
 export PATH="$PATH:$HOME/.local/bin"
 
+export MARKFILE=$HOME/.marks
+function mark {
+  echo "$1:$(pwd)" >> "$MARKFILE"
+  echo "Added to markfile"
+}
+function gomark {
+  A=$(rg "$1" "$MARKFILE") | cut -d ":" -f "2-"
+  pushd $A
+  echo "Welcome to $1."
+}
+
 setopt menu_complete # https://unix.stackexchange.com/questions/12288/zsh-insert-completion-on-first-tab-even-if-ambiguous
 
 # alias hg="history | sort -r | fzf" # use ctrl-R instead
