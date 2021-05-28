@@ -92,5 +92,6 @@ return require('packer').startup(function(use)
 	-- use {"glepnir/galaxyline.nvim"}
 	use {"romgrk/barbar.nvim"}
 	-- use {"akinsho/nvim-bufferline.lua"}
+	use "adelarsq/vim-hackernews"
 end)
 

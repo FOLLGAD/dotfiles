@@ -17,8 +17,8 @@ vim.o.showmode = false -- We don't need to see things like -- INSERT -- anymore
 vim.o.backup = false -- This is recommended by coc
 vim.o.writebackup = false -- This is recommended by coc
 
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
 vim.o.expandtab = true -- Converts tabs to spaces
 vim.o.smartindent = true -- Makes indenting smart
 
