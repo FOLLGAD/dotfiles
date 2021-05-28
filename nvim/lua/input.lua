@@ -6,6 +6,7 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.wo.number = true
 vim.o.number = true
+vim.o.inccommand = "nosplit"
 
 -- fold based on indentation
 vim.wo.foldmethod = "indent"

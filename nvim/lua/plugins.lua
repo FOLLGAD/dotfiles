@@ -38,7 +38,7 @@ return require('packer').startup(function(use)
 		config = function ()
 			require('telescope').setup{
 				defaults = {
-					borderchars = {'-','|','-','|','/','\\','/','\\'}
+					borderchars = {'—','|','—','|','/','\\','/','\\'}
 				}
 			}
 		end
