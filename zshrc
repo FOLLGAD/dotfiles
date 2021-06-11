@@ -6,16 +6,20 @@ export PATH="$PATH:$HOME/.local/bin"
 
 export MARKFILE=$HOME/.marks
 function mark {
+  if [ -n "$1" ]; then
+    gomark $1
+    return
+  fi
   echo "$1:$(pwd)" >> "$MARKFILE"
   echo "Added to markfile"
+}
+function _mark {
+  COMPREPLY=$(cat "$MARKFILE" | cut -d ":" -f 1)
 }
 function gomark {
   A=$(rg ^"$1": "$MARKFILE" | cut -d ":" -f "2-")
   cd $A
   echo "Welcome to $1."
-}
-function _gomark {
-  COMPREPLY=$(cat "$MARKFILE" | cut -d ":" -f 1)
 }
 
 setopt menu_complete # https://unix.stackexchange.com/questions/12288/zsh-insert-completion-on-first-tab-even-if-ambiguous
@@ -122,4 +126,4 @@ zle -N zle-keymap-select
 
 eval "$(direnv hook zsh)"
 
-complete -F _gomark gomark
+complete -F _mark mark
