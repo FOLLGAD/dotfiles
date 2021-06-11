@@ -16,6 +16,8 @@ require('e-nvimtree')
 require('e-tabs')
 require('e-treesitter')
 require('e-git')
+require('e-autotag')
+require('e-snap')
 
 require('lsp')
 require('lsp.js')
