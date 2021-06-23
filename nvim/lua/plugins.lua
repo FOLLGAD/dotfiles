@@ -121,7 +121,13 @@ return require("packer").startup(
     }
     use {"kevinhwang91/nvim-bqf"}
 
-    use {"hoob3rt/lualine.nvim"}
+    use {
+      "hoob3rt/lualine.nvim",
+      -- opt = true,
+      config = function()
+        require("e-lualine")
+      end
+    }
 
     -- Icons
     use {"kyazdani42/nvim-web-devicons"}
