@@ -1,6 +1,6 @@
 require('lualine').setup{
 	options = {
-		theme = 'gruvbox',
+		theme = _G.light and 'gruvbox_light' or 'gruvbox',
 		section_separators = {'', ''},
 		component_separators = {'', ''},
 		disabled_filetypes = {},

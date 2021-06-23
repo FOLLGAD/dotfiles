@@ -25,7 +25,10 @@ vim.o.smartindent = true -- Makes indenting smart
 vim.o.conceallevel = 0 -- So that I can see `` in markdown files
 vim.o.scrolloff = 4
 
-vim.o.listchars = "tab:| ,trail:~,extends:»,precedes:«,space:·,nbsp:␣"
+-- Whitespace handling
+vim.o.listchars = "trail:~,extends:»,precedes:«,nbsp:␣"
+-- vim.o.listchars = "tab:| ,trail:~,extends:»,precedes:«,space:·,nbsp:␣"
+
 vim.wo.list = true
 vim.o.smartcase = true -- Smartcase
 vim.o.ignorecase = true -- Needed for smartcase to work

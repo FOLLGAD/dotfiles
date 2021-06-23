@@ -5,7 +5,7 @@ echo 'Ensure $HOME/.local/bin is in the $PATH variable'
 
 npm i -g pyright prettier eslint typescript typescript-language-server sql-language-server \
   json-language-server vscode-css-languageserver-bin vscode-html-languageserver-bin \
-  bash-language-server vim-language-server
+  bash-language-server vim-language-server lua-fmt
 
 go get github.com/mattn/efm-langserver
 

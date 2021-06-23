@@ -10,43 +10,16 @@ local flake8 = {
   lintFormats = {"%f:%l:%c: %m"}
 }
 
+-- Python
 local isort = {formatCommand = "isort --quiet -", formatStdin = true}
-
 local yapf = {formatCommand = "yapf --quiet", formatStdin = true}
 local black = {formatCommand = "black --quiet -", formatStdin = true}
 
-local O = {
-  python = {
-    linter = "flake8",
-    isort = true,
-    formatter = "black"
-  },
-  lua = {
-    formatter = "lua-fmt"
-  },
-  sh = {
-    formatter = "shfmt",
-    linter = "shellcheck"
-  },
-  tsserver = {
-    linter = "eslint",
-    formatter = "prettier"
-  }
+local python_arguments = {
+  flake8,
+  isort,
+  black,
 }
-
-if O.python.linter == "flake8" then
-  table.insert(python_arguments, flake8)
-end
-
-if O.python.isort then
-  table.insert(python_arguments, isort)
-end
-
-if O.python.formatter == "yapf" then
-  table.insert(python_arguments, yapf)
-elseif O.python.formatter == "black" then
-  table.insert(python_arguments, black)
-end
 
 -- lua
 
@@ -55,11 +28,6 @@ local lua_fmt = {
   formatStdin = true
 }
 local lua_arguments = {lua_fmt}
-
--- local luaFormat = {
---     formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
---     formatStdin = true
--- }
 
 -- sh
 local sh_arguments = {}
@@ -83,7 +51,7 @@ local eslint = {
   lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
   lintIgnoreExitCode = true,
   lintStdin = true,
-  lintFormats = {"%f:%l:%c: %m"},
+  lintFormats = {"%f:%l:%c: %m"}
   -- formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
   -- formatStdin = true
 }
@@ -136,8 +104,6 @@ require "lspconfig".efm.setup {
       json = {prettier},
       yaml = {prettier}
       -- markdown = {markdownPandocFormat}
-      -- javascriptreact = {prettier, eslint},
-      -- javascript = {prettier, eslint},
       -- markdown = {markdownPandocFormat, markdownlint},
     }
   }

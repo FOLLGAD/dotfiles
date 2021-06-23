@@ -8,6 +8,6 @@ augroup END
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 augroup nim_ft
-	au!
-	autocmd BufNewFile,BufRead *.nim set filetype=nim
+  au!
+  autocmd BufNewFile,BufRead *.nim set filetype=nim
 augroup END

@@ -120,7 +120,7 @@ lspconf.on_attach = function(client, bufnr)
       false
     )
   end
-  vim.cmd[[
+  vim.cmd [[
     autocmd CursorMoved,InsertLeave,BufEnter,BufWinEnter,TabEnter,BufWritePost * lua require'lsp_extensions'.inlay_hints{ prefix = '', highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint"} }
   ]]
 end
@@ -134,8 +134,10 @@ local servers = {
   "clojure_lsp",
   "html",
   "cssls",
-  "nimls",
+  "nimls"
 }
+
+vim.lsp.set_log_level("debug")
 
 for _, lsp in pairs(servers) do
   require "lspconfig"[lsp].setup {on_attach = lspconf.on_attach}

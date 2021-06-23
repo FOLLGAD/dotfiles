@@ -1,11 +1,11 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+local install_path = fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
-    execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-    execute 'packadd packer.nvim'
+  execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+  execute "packadd packer.nvim"
 end
 
 -- Only required if you have packer in your `opt` pack
@@ -17,55 +17,120 @@ vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 -- TODO:
 -- Maybe this one: https://github.com/nvim-lua/lsp-status.nvim for displaying in lua-line
 
-return require('packer').startup(function(use)
-  use "wbthomason/packer.nvim"
-  use "sindrets/diffview.nvim"
-  use "tpope/vim-sensible"
-  use "tpope/vim-surround"
-  use "mattn/emmet-vim"
-  use_rocks 'fzy'
+return require("packer").startup(
+  function(use)
+    use {"wbthomason/packer.nvim", opt = true}
+    use {"sindrets/diffview.nvim"}
+    use {"tpope/vim-sensible"}
+    use {"tpope/vim-surround"}
+    use {"mattn/emmet-vim"}
 
-	use "neovim/nvim-lspconfig"
-	use "glepnir/lspsaga.nvim"
-	use "kabouzeid/nvim-lspinstall"
-	use "nvim-lua/lsp_extensions.nvim"
+    -- Use the branch that supports indent for all lines, not just blank lines
+    use {
+      "lukas-reineke/indent-blankline.nvim",
+      branch = "lua",
+      config = function()
+        require("indent-line")
+      end
+    }
 
-	use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
-	use "folke/tokyonight.nvim"
+    use {
+      "karb94/neoscroll.nvim",
+      config = function()
+        require("neoscroll").setup()
+      end
+    }
 
-	use "nvim-lua/popup.nvim"
-	use "nvim-lua/plenary.nvim"
-	use {"camspiers/snap", rocks = {"fzy"}}
+    use {"neovim/nvim-lspconfig"}
+    use {"glepnir/lspsaga.nvim"}
+    use {"kabouzeid/nvim-lspinstall"}
+    use {"nvim-lua/lsp_extensions.nvim"}
+    use {
+      "ray-x/lsp_signature.nvim",
+      -- opt = true,
+      config = function()
+        require "lsp_signature".on_attach()
+      end
+    }
 
-	use "nvim-lua/completion-nvim"
-	-- Treesitter
-	use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
-	use {"windwp/nvim-ts-autotag"}
+    use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+    use {"folke/tokyonight.nvim"}
 
-	use "kyazdani42/nvim-tree.lua"
+    use {"nvim-lua/plenary.nvim"}
+    use {
+      "camspiers/snap",
+      rocks = {"fzy", opt = true},
+      config = function()
+        require("e-snap")
+      end
+    }
 
-	use {"norcalli/nvim-colorizer.lua",
-		config = function()
-			require('colorizer').setup()
-		end
-	}
-	use "lewis6991/gitsigns.nvim"
-	use "f-person/git-blame.nvim"
-	use "folke/which-key.nvim"
-	use {"windwp/nvim-autopairs"}
-	use {"terrortylor/nvim-comment",
-		config = function()
-			require('nvim_comment').setup()
-		end
-	}
-	use "kevinhwang91/nvim-bqf"
+    use {
+      "hrsh7th/nvim-compe",
+      requires = {
+        {"hrsh7th/vim-vsnip"},
+        {"hrsh7th/vim-vsnip-integ"}
+      },
+      config = function()
+        require("compe-completion")
+      end
+    }
+    use {
+      "windwp/nvim-autopairs",
+      config = function()
+        require("nvim-autopairs").setup()
+      end
+    }
+    -- Treesitter
+    use {
+      "nvim-treesitter/nvim-treesitter",
+      run = ":TSUpdate",
+      config = function()
+        require "nvim-treesitter.configs".setup {
+          ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+          autotag = {
+            enable = true
+          },
+          highlight = {
+            enable = true -- false will disable the whole extension
+          }
+        }
+      end
+    }
+    use {"windwp/nvim-ts-autotag"}
 
-	use "hoob3rt/lualine.nvim"
+    use {
+      "norcalli/nvim-colorizer.lua",
+      config = function()
+        require("colorizer").setup()
+      end
+    }
+    use {
+      "lewis6991/gitsigns.nvim",
+      config = function()
+        require("e-gitsigns")
+      end
+    }
+    use {"f-person/git-blame.nvim"}
+    use {"folke/which-key.nvim"}
+    use {
+      "terrortylor/nvim-comment",
+      config = function()
+        require("nvim_comment").setup()
+      end
+    }
+    use {"kevinhwang91/nvim-bqf"}
 
-	-- Icons
-	use "kyazdani42/nvim-web-devicons"
+    use {"hoob3rt/lualine.nvim"}
 
-	use "romgrk/barbar.nvim"
-	use "adelarsq/vim-hackernews"
-end)
+    -- Icons
+    use {"kyazdani42/nvim-web-devicons"}
 
+    use {
+      "romgrk/barbar.nvim",
+      config = function()
+        require("e-tabs")
+      end
+    }
+  end
+)
