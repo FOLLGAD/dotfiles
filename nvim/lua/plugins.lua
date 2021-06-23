@@ -14,9 +14,6 @@ vim.cmd [[packadd packer.nvim]]
 -- Automatically recompile packages on write
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
--- TODO:
--- Maybe this one: https://github.com/nvim-lua/lsp-status.nvim for displaying in lua-line
-
 return require("packer").startup(
   function(use)
     use {"wbthomason/packer.nvim", opt = true}
@@ -41,25 +38,31 @@ return require("packer").startup(
       end
     }
 
-    use {"neovim/nvim-lspconfig"}
-    use {"glepnir/lspsaga.nvim"}
-    use {"kabouzeid/nvim-lspinstall"}
-    use {"nvim-lua/lsp_extensions.nvim"}
     use {
-      "ray-x/lsp_signature.nvim",
-      -- opt = true,
+      "neovim/nvim-lspconfig",
+      requires = {
+        {"glepnir/lspsaga.nvim"},
+        {"kabouzeid/nvim-lspinstall"},
+        {"nvim-lua/lsp_extensions.nvim"},
+        {
+          "ray-x/lsp_signature.nvim",
+          config = function()
+            require "lsp_signature".on_attach()
+          end
+        }
+      },
       config = function()
-        require "lsp_signature".on_attach()
+        require("lsp")
+        require("lsp.js")
+        require("lsp.efm-general")
       end
     }
-
     use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
     use {"folke/tokyonight.nvim"}
-
     use {"nvim-lua/plenary.nvim"}
     use {
       "camspiers/snap",
-      rocks = {"fzy", opt = true},
+      rocks = {"fzy"},
       config = function()
         require("e-snap")
       end
@@ -123,17 +126,13 @@ return require("packer").startup(
 
     use {
       "hoob3rt/lualine.nvim",
-      -- opt = true,
       config = function()
         require("e-lualine")
       end
     }
-
-    -- Icons
-    use {"kyazdani42/nvim-web-devicons"}
-
     use {
       "romgrk/barbar.nvim",
+      requires = {"kyazdani42/nvim-web-devicons"},
       config = function()
         require("e-tabs")
       end
