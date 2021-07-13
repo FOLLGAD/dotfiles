@@ -29,7 +29,7 @@ map('v', '>', '>gv', {noremap = true, silent = true})
 map('x', 'K', ':move \'<-2<CR>gv-gv', {noremap = true, silent = true})
 map('x', 'J', ':move \'>+1<CR>gv-gv', {noremap = true, silent = true})
 
--- map('n', '<Leader>e', ':NvimTreeToggle<CR>', {noremap=true, silent=true})
+map('n', '<Leader>e', ':NvimTreeToggle<CR>', {noremap=true, silent=true})
 
 map('n', '<Leader>h', ':noh<CR>', {noremap=true,silent=true})
 

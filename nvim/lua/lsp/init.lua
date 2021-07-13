@@ -133,7 +133,6 @@ local servers = {
   "rust_analyzer",
   "clojure_lsp",
   "html",
-  "cssls",
   "nimls"
 }
 

@@ -26,7 +26,7 @@ vim.o.conceallevel = 0 -- So that I can see `` in markdown files
 vim.o.scrolloff = 4
 
 -- Whitespace handling
-vim.o.listchars = "trail:~,extends:»,precedes:«,nbsp:␣"
+vim.o.listchars = "tab:| ,trail:~,precedes:«,extends:»,nbsp:␣"
 -- vim.o.listchars = "tab:| ,trail:~,extends:»,precedes:«,space:·,nbsp:␣"
 
 vim.wo.list = true

@@ -25,7 +25,6 @@ return require("packer").startup(
     -- Use the branch that supports indent for all lines, not just blank lines
     use {
       "lukas-reineke/indent-blankline.nvim",
-      branch = "lua",
       config = function()
         require("indent-line")
       end
@@ -54,6 +53,7 @@ return require("packer").startup(
       config = function()
         require("lsp")
         require("lsp.js")
+        require("lsp.css")
         require("lsp.efm-general")
       end
     }
@@ -114,6 +114,7 @@ return require("packer").startup(
         require("e-gitsigns")
       end
     }
+    use {"TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim"}
     use {"f-person/git-blame.nvim"}
     use {"folke/which-key.nvim"}
     use {
@@ -128,6 +129,15 @@ return require("packer").startup(
       "hoob3rt/lualine.nvim",
       config = function()
         require("e-lualine")
+      end
+    }
+
+    use {
+      "kyazdani42/nvim-tree.lua",
+      cmd = "NvimTreeToggle",
+      opt = true,
+      config = function()
+        require("e-nvimtree").config()
       end
     }
     use {

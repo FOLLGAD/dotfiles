@@ -82,6 +82,8 @@ require "lspconfig".efm.setup {
     "sh",
     "html",
     "css",
+    "scss",
+    "less",
     "json",
     "yaml",
     "markdown",
