@@ -6,11 +6,16 @@ export PATH="$PATH:$HOME/.local/bin"
 
 export MARKFILE=$HOME/.marks
 function mark {
-  if [ -n "$1" ]; then
-    gomark $1
+  if [ -z "$1" ]; then
+    # todo: print something helpful
+    echo "that's wrong"
     return
   fi
-  echo "$1:$(pwd)" >> "$MARKFILE"
+  if [ "$1" != "-c" ]; then
+    gomark "$1"
+    return
+  fi
+  echo "$2:$(pwd)" >> "$MARKFILE"
   echo "Added to markfile"
 }
 function _mark {
@@ -45,7 +50,7 @@ fi
 HIST_STAMPS="yyyy-mm-dd"
 
 function f {
-    return "$(fd . $1 | fzy)"
+  return "$(fd . $1 | fzy)"
 }
 
 # }}}
