@@ -114,7 +114,12 @@ return require("packer").startup(
         require("e-gitsigns")
       end
     }
-    use {"TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim"}
+    use {
+      "TimUntersberger/neogit",
+      opt = true,
+      requires = "nvim-lua/plenary.nvim",
+      cmd = {"Neogit"}
+    }
     use {"f-person/git-blame.nvim"}
     use {"folke/which-key.nvim"}
     use {
