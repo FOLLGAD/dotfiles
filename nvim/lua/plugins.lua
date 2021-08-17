@@ -38,6 +38,18 @@ return require("packer").startup(
     }
 
     use {
+      "Pocco81/AutoSave.nvim",
+      config = function()
+        require("autosave").setup(
+          {
+            enabled = true
+          }
+        )
+      end,
+      ft = {"markdown", "text"}
+    }
+
+    use {
       "neovim/nvim-lspconfig",
       requires = {
         {"glepnir/lspsaga.nvim"},
