@@ -1,5 +1,7 @@
 # {{{ General config
 
+export BAT_THEME="gruvbox-light"
+
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
 export PATH="$PATH:$HOME/.local/bin"
