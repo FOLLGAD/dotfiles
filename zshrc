@@ -131,6 +131,5 @@ zle -N zle-keymap-select
 
 # Programs
 
-eval "$(direnv hook zsh)"
-
 complete -F _mark mark
+
