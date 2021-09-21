@@ -73,10 +73,35 @@ return require("packer").startup(
     use {"folke/tokyonight.nvim"}
     use {"nvim-lua/plenary.nvim"}
     use {
-      "camspiers/snap",
-      rocks = {"fzy"},
+      "nvim-telescope/telescope.nvim",
+      requires = {
+        {
+          "nvim-lua/plenary.nvim"
+        },
+        {
+          "nvim-telescope/telescope-fzf-native.nvim",
+          run = "make"
+        },
+        {
+          "nvim-telescope/telescope-media-files.nvim"
+        }
+      },
+      cmd = "Telescope",
       config = function()
-        require("e-snap")
+        require("e-telescope").setup()
+      end,
+      setup = function()
+        local map = vim.api.nvim_set_keymap
+
+        map("n", "<Leader>b", ":Telescope buffers <CR>", {noremap = true})
+        map("n", "<Leader>f", ":Telescope find_files <CR>", {noremap = true})
+        map("n", "<Leader>r", ":Telescope live_grep <CR>", {noremap = true})
+        map("n", "<Leader>gc", ":Telescope git_commits <CR>", {noremap = true})
+        map("n", "<Leader>gs", ":Telescope git_status <CR>", {noremap = true})
+        map("n", "<Leader>jf", ":Telescope find_files hidden=true <CR>", {noremap = true})
+        map("n", "<Leader>jh", ":Telescope help_tags <CR>", {noremap = true})
+        map("n", "<Leader>jo", ":Telescope oldfiles <CR>", {noremap = true})
+        map("n", "<Leader>jt", ":Telescope themes <CR>", {noremap = true})
       end
     }
 
