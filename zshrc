@@ -1,5 +1,7 @@
 # {{{ General config
 
+DISABLE_AUTO_UPDATE=true
+
 export BAT_THEME="gruvbox-light"
 
 export LANG=en_US.UTF-8
