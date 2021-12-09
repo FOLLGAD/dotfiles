@@ -1,14 +1,5 @@
-DATA_PATH = vim.fn.stdpath("data")
+local ok, err = pcall(require, "core")
 
-require("plugins")
-require("colorscheme")
-
-require("logging")
-
-require("input")
-require("settings")
-
-vim.cmd("source ~/.config/nvim/functions.vim")
-
--- Plugin configurations
-require("e-git")
+if not ok then
+   error("Error loading core" .. "\n\n" .. err)
+end
