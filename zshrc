@@ -45,6 +45,7 @@ alias today="date '+%Y-%m-%d'"
 alias now="date '+%H:%M:%S'"
 alias wttr="curl wttr.in"
 alias myip="curl ifconfig.me"
+alias m="mv -vn"
 
 # on linux, alias open to xdg-open
 if ! type open > /dev/null; then
@@ -86,6 +87,10 @@ e[4]="🌵"
 e[5]="🌱"
 e[6]="🌷"
 e[7]="🌻"
+e[8]="🌸"
+e[9]="🍁"
+e[10]="🍄"
+e[11]="🌾"
 
 random_plant() {
     size=${#e[@]}
@@ -134,4 +139,3 @@ zle -N zle-keymap-select
 # Programs
 
 complete -F _mark mark
-
