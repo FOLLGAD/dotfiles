@@ -15,6 +15,7 @@
     ~/.config/mpv: mpv
     ~/.config/albert: albert
     ~/.config/starship.toml: starship/starship.toml
+    ~/.config/wezterm: wezterm
 
 - create: ['~/.config']
 
