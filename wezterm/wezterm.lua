@@ -48,7 +48,7 @@ config.colors = {
 -- window background
 config.background = {
 {
-	source={File='/Users/emil/Documents/hans-isaacson-ed01m0a8nbQ-unsplash.jpg'},
+	source={File='/Users/emil/.config/wezterm/hans-isaacson-ed01m0a8nbQ-unsplash.jpg'},
 	vertical_align="Middle",
 	horizontal_align="Center",
 	hsb = {
