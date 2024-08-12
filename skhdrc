@@ -1,5 +1,6 @@
 # mappings
-alt - t : open -a Kitty /Users/emil
+alt - t : osascript ~/.config/wezterm/openwez.scpt
+#alt - t : open -a Kitty /Users/emil
 alt - b : open -a /Applications/Firefox.app
 
 # focus window
