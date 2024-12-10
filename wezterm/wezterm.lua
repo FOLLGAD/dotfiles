@@ -1,14 +1,12 @@
--- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
--- This will hold the configuration.
 local config = wezterm.config_builder()
 
 -- config.color_scheme = 'Ayu Mirage'
 -- config.color_scheme = 'Ciapre'
 -- config.color_scheme = 'Popping and Locking'
--- config.color_scheme = 'Aurora' -- super nice
-config.color_scheme = 'Nature Suede (terminal.sexy)' -- gnome maxxing
+config.color_scheme = 'Aurora' -- super nice
+-- config.color_scheme = 'Nature Suede (terminal.sexy)' -- gnome maxxing
 -- config.color_scheme = 'Atelier Estuary (base16)' -- nature theme good
 config.default_cursor_style = 'BlinkingBar'
 config.cursor_thickness = 2
@@ -43,27 +41,27 @@ config.colors = {
   visual_bell = 'rgb(50, 25, 25)',
 }
 
--- config.window_background_opacity = 0.8
+config.window_background_opacity = 0.95
 
 -- window background
-config.background = {
-{
-	source={File='/Users/emil/.config/wezterm/hans-isaacson-ed01m0a8nbQ-unsplash.jpg'},
-	vertical_align="Middle",
-	horizontal_align="Center",
-	hsb = {
-		-- Darken the background image by reducing it to 1/3rd
-		brightness = 0.03,
-
-		-- You can adjust the hue by scaling its value.
-		-- a multiplier of 1.0 leaves the value unchanged.
-		hue = 1.0,
-
-		-- You can adjust the saturation also.
-		saturation = 0.8,
-	},
-},
-}
+-- config.background = {
+-- {
+-- 	source={File='/Users/emil/.config/wezterm/hans-isaacson-ed01m0a8nbQ-unsplash.jpg'},
+-- 	vertical_align="Middle",
+-- 	horizontal_align="Center",
+-- 	hsb = {
+-- 		-- Darken the background image by reducing it to 1/3rd
+-- 		brightness = 0.03,
+-- 
+-- 		-- You can adjust the hue by scaling its value.
+-- 		-- a multiplier of 1.0 leaves the value unchanged.
+-- 		hue = 1.0,
+-- 
+-- 		-- You can adjust the saturation also.
+-- 		saturation = 0.6,
+-- 	},
+-- },
+-- }
 
 -- for dark mode!
 function get_appearance()

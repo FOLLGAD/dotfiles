@@ -21,8 +21,8 @@ shift + cmd - k : yabai -m window --warp north
 shift + cmd - j : yabai -m window --warp south
 shift + cmd - l : yabai -m window --warp east
 
-shift + alt - h : yabai -m space --focus prev
-shift + alt - l : yabai -m space --focus next
+ctrl - h : yabai -m space --focus prev
+ctrl - l : yabai -m space --focus next
 
 # balance size of windows
 # shift + alt - 0 : yabai -m space --balance
