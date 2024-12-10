@@ -76,6 +76,19 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 export CASE_SENSITIVE="true"
 setopt nocaseglob
 
+# {{{ funcs
+
+copyfile() {
+  if [[ -f "$1" ]]; then
+    osascript -e 'set the clipboard to (POSIX file "'"$(realpath "$1")"'")'
+    echo "File copied to clipboard: $1"
+  else
+    echo "Error: File not found."
+  fi
+}
+
+# }}}
+
 # {{{ Prompt line
 
 oldPS1="$PS1"
