@@ -21,6 +21,7 @@ The script will:
 
 ## Documentation
 
+- **[POST-INSTALL-CHECKLIST.md](POST-INSTALL-CHECKLIST.md)** - Verify your installation is working correctly
 - **[CONVERSION-SUMMARY.md](CONVERSION-SUMMARY.md)** - Overview of what changed from Dotbot to Nix
 - **[MIGRATION.md](MIGRATION.md)** - Detailed guide for migrating from the old Dotbot setup
 - **[NIX-REFERENCE.md](NIX-REFERENCE.md)** - Quick reference for common Nix commands and patterns
