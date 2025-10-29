@@ -2,6 +2,29 @@
 
 Personal dotfiles managed with [Nix](https://nixos.org/) and [Home Manager](https://github.com/nix-community/home-manager).
 
+## Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/FOLLGAD/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+
+# Run the installation script
+./install-nix.sh
+```
+
+The script will:
+1. Install Nix (if not already installed)
+2. Enable flakes
+3. Set up Home Manager with your configurations
+4. Install all declared packages
+
+## Documentation
+
+- **[MIGRATION.md](MIGRATION.md)** - Guide for migrating from the old Dotbot setup
+- **[NIX-REFERENCE.md](NIX-REFERENCE.md)** - Quick reference for common Nix commands
+- **This README** - Installation and basic usage
+
 ## Prerequisites
 
 ### Install Nix
@@ -31,7 +54,13 @@ git clone https://github.com/FOLLGAD/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
-### 2. Install Home Manager
+### 2. Run the automated installer
+
+```bash
+./install-nix.sh
+```
+
+Or manually install Home Manager:
 
 #### For Linux users:
 ```bash
