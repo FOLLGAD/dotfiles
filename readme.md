@@ -21,8 +21,10 @@ The script will:
 
 ## Documentation
 
-- **[MIGRATION.md](MIGRATION.md)** - Guide for migrating from the old Dotbot setup
-- **[NIX-REFERENCE.md](NIX-REFERENCE.md)** - Quick reference for common Nix commands
+- **[CONVERSION-SUMMARY.md](CONVERSION-SUMMARY.md)** - Overview of what changed from Dotbot to Nix
+- **[MIGRATION.md](MIGRATION.md)** - Detailed guide for migrating from the old Dotbot setup
+- **[NIX-REFERENCE.md](NIX-REFERENCE.md)** - Quick reference for common Nix commands and patterns
+- **[LEGACY.md](LEGACY.md)** - Information about legacy Dotbot files
 - **This README** - Installation and basic usage
 
 ## Prerequisites
