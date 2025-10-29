@@ -201,9 +201,6 @@ in
     # Let the tmux.conf file handle all configuration
     # Home Manager will ensure tmux is installed
   };
-  
-  # Link the custom tmux.conf
-  home.file.".tmux.conf".source = ./tmux.conf;
 
   # Neovim configuration
   programs.neovim = {
@@ -215,6 +212,10 @@ in
 
   # Home files - link config directories
   home.file = {
+    # Tmux configuration
+    ".tmux.conf".source = ./tmux.conf;
+    
+    # Config directories
     ".config/nvim" = {
       source = ./nvim;
       recursive = true;
