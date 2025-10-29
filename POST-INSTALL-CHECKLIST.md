@@ -172,7 +172,7 @@ If all checks pass:
 
 1. **Customize**: Edit `home.nix` to add packages or change settings
 2. **Explore**: Check out [Home Manager options](https://mipmip.github.io/home-manager-option-search/)
-3. **Backup**: Your `flake.lock` ensures reproducibility - commit it to git
+3. **Backup**: Your `flake.lock` ensures reproducibility - commit it to Git
 4. **Share**: Use the same config on other machines by cloning and running `./install-nix.sh`
 
 ## Getting Help
