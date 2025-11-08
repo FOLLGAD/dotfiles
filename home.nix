@@ -61,13 +61,15 @@ in
     aerospace
     # macOS-specific packages
   ];
-
+  
   # Git configuration
   programs.git = {
     enable = true;
     # You can add your git config here
-    # userName = "Your Name";
-    # userEmail = "your.email@example.com";
+    settings.user = {
+      name = "Emil Ahlbäck";
+      email = "me@emil.zip";
+    };
   };
 
   # Zsh configuration
@@ -80,12 +82,14 @@ in
     defaultKeymap = "viins";
     
     history = {
-      size = 10000;
+      size = 50000;
       path = "${config.home.homeDirectory}/.zsh_history";
       ignoreDups = true;
       ignoreSpace = true;
       expireDuplicatesFirst = true;
       share = true;
+      save = 50000;
+      extended = true;
     };
 
     initContent = ''
@@ -121,6 +125,14 @@ in
 
       # Menu complete on first tab
       setopt menu_complete
+
+      # Enhanced history options
+      setopt HIST_FCNTL_LOCK          # Use file locking for history file (safer)
+      setopt HIST_REDUCE_BLANKS      # Remove extra blanks from history
+      setopt INC_APPEND_HISTORY      # Append to history file immediately
+      setopt HIST_IGNORE_ALL_DUPS    # Ignore all duplicates (more aggressive)
+      setopt HIST_FIND_NO_DUPS       # Don't show duplicates when searching history
+      setopt HIST_VERIFY             # Show history expansion before executing
 
       # Source local zshrc if it exists
       [ -f $HOME/.zshrc_local ] && source $HOME/.zshrc_local
