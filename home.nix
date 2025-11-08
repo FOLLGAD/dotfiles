@@ -39,6 +39,16 @@ in
     fi
   '';
 
+  home.activation.tapToClick = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    # Only run on macOS
+    if [ "$(uname)" = "Darwin" ]; then
+      echo "Enabling tap-to-click..."
+      /usr/bin/defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+      /usr/bin/defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+      /usr/bin/defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+    fi
+  '';
+
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # CLI tools
