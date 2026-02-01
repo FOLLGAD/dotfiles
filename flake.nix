@@ -17,7 +17,7 @@
     in {
       homeConfigurations = {
         # Default configuration for Linux
-        "emil2" = home-manager.lib.homeManagerConfiguration {
+        "emil@linux" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
         };

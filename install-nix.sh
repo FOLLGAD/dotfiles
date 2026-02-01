@@ -49,15 +49,15 @@ fi
 
 echo -e "${GREEN}✓ Nix flakes are enabled${NC}"
 
-# Determine the appropriate flake configuration
-FLAKE_CONFIG="user"
+# Determine the appropriate flake configuration (must match flake.nix outputs)
+FLAKE_CONFIG="emil@linux"
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # Check if Apple Silicon or Intel
     if [[ $(uname -m) == "arm64" ]]; then
-        FLAKE_CONFIG="user@darwin"
+        FLAKE_CONFIG="emil"
         echo -e "${GREEN}Detected macOS (Apple Silicon)${NC}"
     else
-        FLAKE_CONFIG="user@darwin-x86"
+        FLAKE_CONFIG="emil@darwin-x86"
         echo -e "${GREEN}Detected macOS (Intel)${NC}"
     fi
 else
@@ -67,21 +67,6 @@ fi
 # Get current username
 CURRENT_USER=$(whoami)
 echo -e "${YELLOW}Current user: $CURRENT_USER${NC}"
-
-# Check if home.nix needs to be updated
-if grep -q 'home.username = lib.mkDefault "user"' home.nix; then
-    echo -e "${YELLOW}⚠ You should update your username in home.nix${NC}"
-    echo -e "Edit home.nix and change:"
-    echo -e '  home.username = lib.mkDefault "user";'
-    echo -e "to:"
-    echo -e "  home.username = lib.mkDefault \"$CURRENT_USER\";"
-    echo ""
-    read -p "Do you want to continue anyway? (y/n) " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        exit 1
-    fi
-fi
 
 # Install Home Manager
 echo -e "${GREEN}Installing Home Manager configuration...${NC}"
@@ -95,14 +80,10 @@ echo -e "\nTo update packages, run:"
 echo -e "  ${YELLOW}nix flake update${NC}"
 echo -e "  ${YELLOW}home-manager switch --flake ~/.dotfiles${NC}"
 
-# macOS specific instructions
+# macOS specific note
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo -e "\n${YELLOW}=== macOS Specific Setup ===${NC}"
-    echo -e "For yabai and skhd window management, you may need to:"
-    echo -e "  1. Grant accessibility permissions in System Preferences"
-    echo -e "  2. Install via Homebrew if not using nix-darwin:"
-    echo -e "     ${YELLOW}brew install koekeishiya/formulae/yabai${NC}"
-    echo -e "     ${YELLOW}brew install koekeishiya/formulae/skhd${NC}"
+    echo -e "\n${YELLOW}=== macOS Note ===${NC}"
+    echo -e "If you use Aerospace (window manager), you may need to grant Accessibility permissions in System Settings."
 fi
 
-echo -e "\n${GREEN}Enjoy your new setup! 🎉${NC}"
+echo -e "\n${GREEN}Enjoy your new setup!${NC}"

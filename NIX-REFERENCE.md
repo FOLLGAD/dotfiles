@@ -14,8 +14,9 @@ echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 # Install Home Manager configuration
 ./install-nix.sh
 # OR manually:
-nix run home-manager/master -- switch --flake .#user  # Linux
-nix run home-manager/master -- switch --flake .#user@darwin  # macOS
+nix run home-manager/master -- switch --flake .#emil@linux  # Linux
+nix run home-manager/master -- switch --flake .#emil  # macOS (Apple Silicon)
+nix run home-manager/master -- switch --flake .#emil@darwin-x86  # macOS (Intel)
 ```
 
 ### Daily Usage
