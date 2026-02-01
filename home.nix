@@ -49,6 +49,12 @@ in
     fi
   '';
 
+  programs.obsidian = {
+    enable = true;
+
+    vaults."Documents/Obsidian/master".enable = true;
+  };
+
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     # CLI tools
