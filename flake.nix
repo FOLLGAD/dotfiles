@@ -8,9 +8,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, nix-darwin, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -40,6 +44,18 @@
         modules = [ 
           ./home.nix
           { home.homeDirectory = "/Users/emil"; }
+        ];
+      };
+
+      # nix-darwin configurations (recommended for macOS)
+      #
+      # Apply with:
+      #   darwin-rebuild switch --flake .#emil-mac
+      darwinConfigurations."emil-mac" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          home-manager.darwinModules.home-manager
+          ./darwin.nix
         ];
       };
 

@@ -73,6 +73,7 @@ in
     # Optional: Add more packages as needed
   ] ++ lib.optionals (!isDarwin) [
     # Linux-specific packages
+    beeper
   ] ++ lib.optionals isDarwin [
     aerospace
     # macOS-specific packages
