@@ -249,6 +249,20 @@ in
     vimAlias = true;
   };
 
+  # Atuin - shell history
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      auto_sync = false;  # Set to true if you want to use atuin sync
+      sync_frequency = "5m";
+      search_mode = "fuzzy";
+      filter_mode = "global";
+      style = "compact";
+      inline_height = 20;
+    };
+  };
+
   # Home files - link config directories
   home.file = {
     # Config directories
@@ -257,6 +271,9 @@ in
     # };
     ".config/mpv" = {
       source = config.lib.file.mkOutOfStoreSymlink ./mpv;
+    };
+    ".config/ghostty" = {
+      source = config.lib.file.mkOutOfStoreSymlink ./ghostty;
     };
   } // lib.optionalAttrs isDarwin {
     ".aerospace.toml".source = config.lib.file.mkOutOfStoreSymlink ./aerospace/aerospace.toml;

@@ -14,6 +14,9 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      
+      # Helper to generate outputs for multiple systems
+      forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ];
     in {
       homeConfigurations = {
         # Default configuration for Linux
@@ -39,5 +42,17 @@
           { home.homeDirectory = "/Users/emil"; }
         ];
       };
+
+      # Dev shells for each system
+      devShells = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in {
+          default = pkgs.mkShell {
+            buildInputs = [
+              home-manager.packages.${system}.default
+            ];
+          };
+        }
+      );
     };
 }
