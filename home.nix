@@ -277,6 +277,7 @@ in
     };
   } // lib.optionalAttrs isDarwin {
     ".aerospace.toml".source = config.lib.file.mkOutOfStoreSymlink ./aerospace/aerospace.toml;
+    "Library/Application Support/Cursor/User/keybindings.json".source = config.lib.file.mkOutOfStoreSymlink ./cursor/keybindings.json;
   };
 
   # XDG Base Directory specification
