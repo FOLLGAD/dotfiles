@@ -92,6 +92,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    dotDir = config.home.homeDirectory;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
