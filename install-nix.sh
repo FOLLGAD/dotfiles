@@ -49,41 +49,47 @@ fi
 
 echo -e "${GREEN}✓ Nix flakes are enabled${NC}"
 
-# Determine the appropriate flake configuration (must match flake.nix outputs)
-FLAKE_CONFIG="emil@linux"
+# Determine OS and apply appropriate configuration
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # Check if Apple Silicon or Intel
+    # macOS: use nix-darwin (which includes Home Manager)
     if [[ $(uname -m) == "arm64" ]]; then
-        FLAKE_CONFIG="emil"
+        DARWIN_CONFIG="emil-mac"
         echo -e "${GREEN}Detected macOS (Apple Silicon)${NC}"
     else
-        FLAKE_CONFIG="emil@darwin-x86"
-        echo -e "${GREEN}Detected macOS (Intel)${NC}"
+        # Add x86 darwin config to flake.nix if needed
+        DARWIN_CONFIG="emil-mac"
+        echo -e "${GREEN}Detected macOS (Intel) - using emil-mac config${NC}"
     fi
-else
-    echo -e "${GREEN}Detected Linux${NC}"
-fi
 
-# Get current username
-CURRENT_USER=$(whoami)
-echo -e "${YELLOW}Current user: $CURRENT_USER${NC}"
+    echo -e "${GREEN}Installing nix-darwin configuration (includes Home Manager)...${NC}"
+    nix --extra-experimental-features 'nix-command flakes' run nix-darwin -- switch --flake ".#${DARWIN_CONFIG}"
 
-# Install Home Manager
-echo -e "${GREEN}Installing Home Manager configuration...${NC}"
-nix --experimental-features 'nix-command flakes' run home-manager/master -- switch --flake .#${FLAKE_CONFIG}
-
-echo -e "\n${GREEN}=== Setup Complete! ===${NC}"
-echo -e "${GREEN}✓ Home Manager has been installed and configured${NC}"
-echo -e "\nTo update your configuration in the future, run:"
-echo -e "  ${YELLOW}home-manager switch --flake ~/.dotfiles${NC}"
-echo -e "\nTo update packages, run:"
-echo -e "  ${YELLOW}nix flake update${NC}"
-echo -e "  ${YELLOW}home-manager switch --flake ~/.dotfiles${NC}"
-
-# macOS specific note
-if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo -e "\n${GREEN}=== Setup Complete! ===${NC}"
+    echo -e "${GREEN}✓ nix-darwin and Home Manager have been installed and configured${NC}"
+    echo -e "\nTo update your configuration in the future, run:"
+    echo -e "  ${YELLOW}darwin-rebuild switch --flake ~/.dotfiles#${DARWIN_CONFIG}${NC}"
+    echo -e "\nTo update packages, run:"
+    echo -e "  ${YELLOW}nix flake update && darwin-rebuild switch --flake ~/.dotfiles#${DARWIN_CONFIG}${NC}"
     echo -e "\n${YELLOW}=== macOS Note ===${NC}"
     echo -e "If you use Aerospace (window manager), you may need to grant Accessibility permissions in System Settings."
+else
+    # Linux: use standalone Home Manager
+    FLAKE_CONFIG="emil@linux"
+    echo -e "${GREEN}Detected Linux${NC}"
+
+    # Get current username
+    CURRENT_USER=$(whoami)
+    echo -e "${YELLOW}Current user: $CURRENT_USER${NC}"
+
+    echo -e "${GREEN}Installing Home Manager configuration...${NC}"
+    nix --extra-experimental-features 'nix-command flakes' run home-manager/master -- switch --extra-experimental-features 'nix-command flakes' --flake ".#${FLAKE_CONFIG}"
+
+    echo -e "\n${GREEN}=== Setup Complete! ===${NC}"
+    echo -e "${GREEN}✓ Home Manager has been installed and configured${NC}"
+    echo -e "\nTo update your configuration in the future, run:"
+    echo -e "  ${YELLOW}home-manager switch --flake ~/.dotfiles#${FLAKE_CONFIG}${NC}"
+    echo -e "\nTo update packages, run:"
+    echo -e "  ${YELLOW}nix flake update && home-manager switch --flake ~/.dotfiles#${FLAKE_CONFIG}${NC}"
 fi
 
 echo -e "\n${GREEN}Enjoy your new setup!${NC}"

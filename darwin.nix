@@ -1,11 +1,13 @@
 { pkgs, ... }:
 {
-  # Required for nix-darwin on macOS
-  services.nix-daemon.enable = true;
+  # Nix settings (nix-daemon is now managed automatically)
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Keep behavior consistent with your Home Manager config
   nixpkgs.config.allowUnfree = true;
+
+  # Primary user for nix-darwin (required for homebrew, etc.)
+  system.primaryUser = "emil";
 
   # Identify the user account that Home Manager should manage.
   users.users.emil = {
@@ -26,6 +28,11 @@
     casks = [
       "beeper"
     ];
+  };
+
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = true;
   };
 
   # This tracks backwards-incompatible nix-darwin defaults.

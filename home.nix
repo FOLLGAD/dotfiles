@@ -4,15 +4,8 @@ let
   isDarwin = pkgs.stdenv.isDarwin;
 in
 {
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = (_: true);
-    };
-  };
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.package = pkgs.nix;
+  nix.package = lib.mkDefault pkgs.nix;
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

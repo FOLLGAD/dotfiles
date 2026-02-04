@@ -26,16 +26,22 @@
         # Default configuration for Linux
         "emil@linux" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          modules = [ ./home.nix ];
+          modules = [
+            ./home.nix
+            { nixpkgs.config.allowUnfree = true; }
+          ];
         };
       };
 
-      # macOS configuration
+      # Standalone macOS Home Manager (prefer darwinConfigurations instead)
       homeConfigurations."emil" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages."aarch64-darwin";
         modules = [ 
           ./home.nix
-          { home.homeDirectory = "/Users/emil"; }
+          {
+            home.homeDirectory = "/Users/emil";
+            nixpkgs.config.allowUnfree = true;
+          }
         ];
       };
       
@@ -43,7 +49,10 @@
         pkgs = nixpkgs.legacyPackages."x86_64-darwin";
         modules = [ 
           ./home.nix
-          { home.homeDirectory = "/Users/emil"; }
+          {
+            home.homeDirectory = "/Users/emil";
+            nixpkgs.config.allowUnfree = true;
+          }
         ];
       };
 
