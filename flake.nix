@@ -12,9 +12,12 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nix-darwin, ... }:
+  outputs = { nixpkgs, home-manager, nix-darwin, ghostty, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -62,6 +65,7 @@
       #   darwin-rebuild switch --flake .#emil-mac
       darwinConfigurations."emil-mac" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
+        specialArgs = { inherit ghostty; };
         modules = [
           home-manager.darwinModules.home-manager
           ./darwin.nix

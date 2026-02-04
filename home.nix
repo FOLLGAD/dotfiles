@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, ghostty ? null, ... }:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
@@ -68,7 +68,10 @@ in
     beeper
   ] ++ lib.optionals isDarwin [
     aerospace
-    # macOS-specific packages
+    # macOS-specific packages (ghostty installed via homebrew)
+  ] ++ lib.optionals (ghostty != null && !isDarwin) [
+    # Ghostty from flake (Linux only - macOS uses homebrew cask)
+    ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
   
   # Git configuration

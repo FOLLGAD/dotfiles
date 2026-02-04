@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, ghostty, ... }:
 {
   # Nix settings (nix-daemon is now managed automatically)
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -19,6 +19,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    extraSpecialArgs = { inherit ghostty; };
     users.emil = import ./home.nix;
   };
 
@@ -27,6 +28,7 @@
     enable = true;
     casks = [
       "beeper"
+      "ghostty"
       "raycast"
     ];
   };
