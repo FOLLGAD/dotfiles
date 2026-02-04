@@ -59,7 +59,6 @@ in
     curl
     wget
     git
-    raycast
     
     # Development tools
     

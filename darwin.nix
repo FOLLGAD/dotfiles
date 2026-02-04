@@ -27,6 +27,7 @@
     enable = true;
     casks = [
       "beeper"
+      "raycast"
     ];
   };
 
