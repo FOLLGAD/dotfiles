@@ -2,6 +2,7 @@
 {
   # Nix settings (nix-daemon is now managed automatically)
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.enable = false;
 
   # Keep behavior consistent with your Home Manager config
   nixpkgs.config.allowUnfree = true;

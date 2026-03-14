@@ -162,6 +162,18 @@ automatically-unhide-macos-hidden-apps = true
     alt-shift-y = 'move-node-to-workspace Y'
     alt-shift-z = 'move-node-to-workspace Z'
 
+    # See: https://nikitabobko.github.io/AeroSpace/commands#focus-monitor
+    alt-ctrl-h = 'focus-monitor left'
+    alt-ctrl-j = 'focus-monitor down'
+    alt-ctrl-k = 'focus-monitor up'
+    alt-ctrl-l = 'focus-monitor right'
+
+    # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-monitor
+    alt-ctrl-shift-h = 'move-node-to-monitor left'
+    alt-ctrl-shift-j = 'move-node-to-monitor down'
+    alt-ctrl-shift-k = 'move-node-to-monitor up'
+    alt-ctrl-shift-l = 'move-node-to-monitor right'
+
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     alt-tab = 'workspace-back-and-forth'
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
@@ -192,4 +204,8 @@ automatically-unhide-macos-hidden-apps = true
 
 [[on-window-detected]]
     if.window-title-regex-substring = "Picture-in-Picture"
+    run = ["layout floating"]
+
+[[on-window-detected]]
+    if.app-id = 'com.granola.app'
     run = ["layout floating"]
