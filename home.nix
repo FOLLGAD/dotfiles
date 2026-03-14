@@ -61,7 +61,8 @@ in
     git
     
     # Development tools
-    
+    claude-code
+
     # Optional: Add more packages as needed
   ] ++ lib.optionals (!isDarwin) [
     # Linux-specific packages
