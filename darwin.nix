@@ -30,6 +30,7 @@
     casks = [
       "beeper"
       "ghostty"
+      "granola"
       "raycast"
     ];
   };
