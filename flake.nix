@@ -63,7 +63,7 @@
       #
       # Apply with:
       #   darwin-rebuild switch --flake .#emil-mac
-      darwinConfigurations."emil-mac" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."lovemaker" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit ghostty; };
         modules = [

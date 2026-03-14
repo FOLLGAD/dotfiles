@@ -21,6 +21,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit ghostty; };
+    backupFileExtension = "backup";
     users.emil = import ./home.nix;
   };
 
@@ -32,6 +33,7 @@
       "ghostty"
       "granola"
       "raycast"
+      "spotify"
     ];
   };
 

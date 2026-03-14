@@ -62,6 +62,7 @@ in
     
     # Development tools
     claude-code
+    gh
 
     # Optional: Add more packages as needed
   ] ++ lib.optionals (!isDarwin) [
@@ -264,9 +265,9 @@ in
   # Home files - link config directories
   home.file = {
     # Config directories
-    # ".config/nvim" = {
-    #   source = config.lib.file.mkOutOfStoreSymlink ./nvim;
-    # };
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink ./nvim;
+    };
     ".config/mpv" = {
       source = config.lib.file.mkOutOfStoreSymlink ./mpv;
     };
