@@ -113,7 +113,7 @@ in
       export BAT_THEME="gruvbox-light"
       export LANG=en_US.UTF-8
       export EDITOR="nvim"
-      export PATH="$PATH:$HOME/.local/bin"
+      export PATH="/opt/homebrew/bin:$PATH:$HOME/.local/bin:$HOME/.dotfiles/scripts"
 
       # Markfile functionality
       export MARKFILE=$HOME/.marks
@@ -246,6 +246,13 @@ in
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+  };
+
+  # Direnv
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
   };
 
   # Atuin - shell history

@@ -28,9 +28,15 @@
   # Declaratively manage Homebrew (casks, taps, formulae) via nix-darwin.
   homebrew = {
     enable = true;
+    brews = [
+      "docker"
+      "docker-compose"
+      "colima"
+    ];
     casks = [
       "beeper"
       "ghostty"
+      "google-chrome"
       "granola"
       "raycast"
       "spotify"
