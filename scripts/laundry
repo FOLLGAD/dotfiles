@@ -1,0 +1,478 @@
+#!/usr/bin/env bash
+# SSSB Aptus laundry booking CLI
+# Usage:
+#   laundry login              - Login and save session
+#   laundry bookings           - Show current/past bookings
+#   laundry available [N]      - Show first N available slots (default 10)
+#   laundry slots GROUP DATE   - Show time slots for a group on a date (YYYY-MM-DD)
+#   laundry groups             - List all laundry room groups
+#   laundry book GROUP DATE PASS - Book a slot (passNo = time slot index)
+#   laundry cancel GROUP DATE PASS - Cancel a booking
+#   laundry calendar GROUP     - Show calendar overview (which days have free slots)
+
+set -euo pipefail
+
+BASE="https://sssb.aptustotal.se/AptusPortal"
+COOKIE_FILE="$HOME/.cache/laundry_cookies.txt"
+UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+CATEGORY_ID=35  # Laundry
+
+mkdir -p "$(dirname "$COOKIE_FILE")"
+
+fetch() {
+  curl -sL -b "$COOKIE_FILE" -c "$COOKIE_FILE" \
+    -H "User-Agent: $UA" \
+    "$@"
+}
+
+fetch_ajax() {
+  fetch -H "X-Requested-With: XMLHttpRequest" \
+    -H "Referer: $BASE/CustomerBooking" \
+    "$@"
+}
+
+ensure_login() {
+  # Check if we have a valid session
+  local test
+  test=$(fetch "$BASE/CustomerBooking/JsonGetSingleCustomerCategoryId" 2>/dev/null || echo "")
+  if echo "$test" | grep -q '"status":"OK"'; then
+    return 0
+  fi
+  do_login
+}
+
+do_login() {
+  local creds_file="$HOME/.config/laundry/credentials"
+  local username password
+
+  if [[ -f "$creds_file" ]]; then
+    username=$(head -1 "$creds_file")
+    password=$(tail -1 "$creds_file")
+  else
+    echo "No credentials found. Enter them now (they'll be saved to $creds_file):"
+    read -rp "Username: " username
+    read -rsp "Password: " password
+    echo
+    mkdir -p "$(dirname "$creds_file")"
+    printf '%s\n%s\n' "$username" "$password" > "$creds_file"
+    chmod 600 "$creds_file"
+    echo "Credentials saved."
+  fi
+
+  # Get login page for token and salt
+  local login_page
+  login_page=$(curl -sL -c "$COOKIE_FILE" -H "User-Agent: $UA" \
+    "$BASE/Account/Login?ReturnUrl=%2faptusportal")
+
+  local token salt
+  token=$(echo "$login_page" | /usr/bin/perl -ne 'if (/name="__RequestVerificationToken".*?value="([^"]*)"/) { print $1; exit }')
+  salt=$(echo "$login_page" | /usr/bin/perl -ne 'if (/id="PasswordSalt".*?value="([^"]*)"/) { print $1; exit }')
+
+  # XOR-encode password
+  local encoded_pw
+  encoded_pw=$(/usr/bin/perl -e '
+    use Encode;
+    my $salt = $ARGV[0];
+    my $pw = $ARGV[1];
+    my $result = "";
+    for my $i (0..length($pw)-1) {
+      $result .= chr($salt ^ ord(substr($pw, $i, 1)));
+    }
+    print encode("UTF-8", $result);
+  ' "$salt" "$password")
+
+  local encoded_token encoded_pw_url
+  encoded_token=$(/usr/bin/perl -MURI::Escape -e 'print uri_escape($ARGV[0])' "$token")
+  encoded_pw_url=$(/usr/bin/perl -MURI::Escape -e 'print uri_escape($ARGV[0])' "$encoded_pw")
+
+  local resp_code
+  resp_code=$(curl -s -b "$COOKIE_FILE" -c "$COOKIE_FILE" \
+    -H "User-Agent: $UA" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -H "Referer: $BASE/Account/Login" \
+    -o /dev/null -w "%{http_code}" \
+    --data-raw "__RequestVerificationToken=${encoded_token}&UserName=${username}&Password=${password}&PwEnc=${encoded_pw_url}&PasswordSalt=${salt}&DesktopSelected=true&DeviceType=PC" \
+    "$BASE/Account/Login?ReturnUrl=%2fAptusPortal%2f")
+
+  if [[ "$resp_code" == "302" ]]; then
+    echo "Logged in successfully."
+  else
+    echo "Login failed (HTTP $resp_code). Check credentials in $creds_file"
+    exit 1
+  fi
+}
+
+cmd_login() {
+  rm -f "$COOKIE_FILE"
+  do_login
+}
+
+cmd_bookings() {
+  ensure_login
+  local page
+  page=$(fetch "$BASE/CustomerBooking")
+
+  echo "$page" | /usr/bin/perl -e '
+    my $html = do { local $/; <STDIN> };
+    # Find booking cards
+    while ($html =~ /<div class="bookingCard"[^>]*>(.*?)<\/div>\s*<\/div>/gs) {
+      my $card = $1;
+      my ($time) = $card =~ />\s*(\d{2}:\d{2}-\d{2}:\d{2})\s*</s;
+      my ($date) = $card =~ /cardSmallFont">\s*([A-Z]+ \d+ [A-Z]+)\s*</s;
+      my ($group) = $card =~ />\s*(Grupp \d+)\s*</s;
+      my ($location) = $card =~ /cardSmallFont">\s*(Professorslingan[^<]*)</s;
+      my ($status);
+      if ($card =~ /class="unbookButton"/) {
+        $status = "Booked";
+      } elsif ($card =~ /class="[^"]*bookButton[^"]*"[^>]*>\s*(\w+)\s*</s) {
+        $status = $1;
+      }
+      $location =~ s/\s*$// if $location;
+      next unless $time;
+      printf "%-6s  %-12s  %-8s  %-25s  %s\n", $status // "?", $date // "?", $time, $location // "?", $group // "?";
+    }
+  '
+}
+
+cmd_available() {
+  local count=${1:-10}
+  ensure_login
+
+  local page
+  page=$(fetch "$BASE/CustomerBooking/FirstAvailable?categoryId=$CATEGORY_ID&firstX=$count")
+
+  echo "$page" | /usr/bin/perl -e '
+    my $html = do { local $/; <STDIN> };
+    my $i = 0;
+    while ($html =~ /aria-label="Book\s+(Grupp \d+)\s+(\d+ \w+ \d+)\s+(\d{2}:\d{2})\s+To\s+(\d{2}:\d{2})"/g) {
+      my ($group, $date, $from, $to) = ($1, $2, $3, $4);
+      my ($location) = $html =~ /Professorslingan\s+\d+/;
+      # Extract location from nearby context
+      $i++;
+      printf "%2d. %-12s  %s-%s  %s\n", $i, $date, $from, $to, $group;
+    }
+    print "No available slots found.\n" unless $i;
+  '
+}
+
+cmd_groups() {
+  ensure_login
+
+  local page
+  page=$(fetch_ajax "$BASE/CustomerBooking/CustomerLocationGroups?categoryId=$CATEGORY_ID")
+
+  echo "Available laundry rooms:"
+  echo "$page" | /usr/bin/perl -0777 -e '
+    my $html = <STDIN>;
+    while ($html =~ /bookingGroupId=(\d+).*?>(Professorslingan\s+\d+)\s*<br\s*\/?>\s*(Grupp\s+\d+)/gs) {
+      printf "  ID %-4s  %s %s\n", $1, $2, $3;
+    }
+  '
+}
+
+cmd_slots() {
+  local group_id="${1:?Usage: laundry slots GROUP_ID DATE}"
+  local date="${2:?Usage: laundry slots GROUP_ID DATE}"
+  ensure_login
+
+  local page
+  page=$(fetch "$BASE/CustomerBooking/BookingCalendar?bookingGroupId=$group_id&passDate=$date")
+
+  echo "$page" | /usr/bin/perl -e '
+    my $html = do { local $/; <STDIN> };
+    while ($html =~ /aria-label="(Book|Cancel|Booked)\s+(Grupp \d+)\s+(\d+ \w+ \d+)\s+(\d{2}:\d{2})\s+To\s+(\d{2}:\d{2})"/g) {
+      my ($action, $group, $date, $from, $to) = ($1, $2, $3, $4, $5);
+      # Extract passNo
+      my $status = $action eq "Book" ? "FREE" : $action eq "Cancel" ? "YOURS" : "TAKEN";
+      printf "  %-5s  %s  %s-%s  %s\n", $status, $date, $from, $to, $group;
+    }
+  '
+
+  # Also extract passNo info
+  echo ""
+  echo "Pass numbers (for booking):"
+  echo "$page" | /usr/bin/perl -ne '
+    if (/passNo=(\d+)&amp;passDate=([\d-]+)&amp;bookingGroupId=(\d+).*?aria-label="Book[^"]*?(\d{2}:\d{2})\s+To\s+(\d{2}:\d{2})"/) {
+      printf "  passNo=%s  %s  %s-%s\n", $1, $2, $4, $5;
+    }
+  '
+}
+
+cmd_calendar() {
+  local group_id="${1:?Usage: laundry calendar GROUP_ID}"
+  ensure_login
+
+  local page
+  page=$(fetch "$BASE/CustomerBooking/BookingCalendarOverview?bookingGroupId=$group_id")
+
+  echo "$page" | /usr/bin/perl -e '
+    my $html = do { local $/; <STDIN> };
+    # Extract group name
+    if ($html =~ /PROFESSORSLINGAN\s+\d+\s*:\s*(Grupp \d+)/) {
+      print "Calendar for $1\n\n";
+    }
+    # Extract week rows with dates and availability
+    while ($html =~ /passDate=([\d-]+).*?(<div class="dayBlock[^"]*">\s*<\/div>\s*)+/gs) {
+      my $date = $1;
+      my $block = $&;
+      my $free = () = $block =~ /freeBookable/g;
+      my $taken = () = $block =~ /notBookable/g;
+      printf "  %s  %d free / %d total slots\n", $date, $free, $free + $taken if ($free + $taken) > 0;
+    }
+  '
+}
+
+# Resolve address string (e.g. "39" or "professorslingan 39") to list of group IDs
+resolve_groups_for_address() {
+  local addr="$1"
+  local groups_html
+  groups_html=$(fetch_ajax "$BASE/CustomerBooking/CustomerLocationGroups?categoryId=$CATEGORY_ID")
+
+  echo "$groups_html" | /usr/bin/perl -0777 -e '
+    my $html = <STDIN>;
+    my $filter = lc($ARGV[0]);
+    while ($html =~ /bookingGroupId=(\d+).*?>(Professorslingan\s+(\d+))\s*<br\s*\/?>\s*(Grupp\s+\d+)/gs) {
+      my ($id, $full_addr, $num, $group) = ($1, $2, $3, $4);
+      my $match = lc("$full_addr $group");
+      if ($match =~ /\Q$filter\E/ || $num eq $filter) {
+        print "$id\n";
+      }
+    }
+  ' "$addr"
+}
+
+cmd_search() {
+  local address="${1:?Usage: laundry search ADDRESS FROM_DATE TO_DATE}"
+  local from_date="${2:?Usage: laundry search ADDRESS FROM_DATE TO_DATE}"
+  local to_date="${3:?Usage: laundry search ADDRESS FROM_DATE TO_DATE}"
+  ensure_login
+
+  # Get group IDs for this address
+  local group_ids
+  group_ids=$(resolve_groups_for_address "$address")
+
+  if [[ -z "$group_ids" ]]; then
+    echo "No laundry rooms found matching '$address'"
+    echo "Run 'laundry groups' to see available rooms."
+    exit 1
+  fi
+
+  # Generate list of dates in range
+  local dates
+  dates=$(/usr/bin/perl -e '
+    use POSIX qw(mktime strftime);
+    my ($fy,$fm,$fd) = split(/-/, $ARGV[0]);
+    my ($ty,$tm,$td) = split(/-/, $ARGV[1]);
+    my $cur = mktime(0,0,12,$fd,$fm-1,$fy-1900);
+    my $end = mktime(0,0,12,$td,$tm-1,$ty-1900);
+    while ($cur <= $end) {
+      print strftime("%Y-%m-%d", localtime($cur)) . "\n";
+      $cur += 86400;
+    }
+  ' "$from_date" "$to_date")
+
+  # The calendar endpoint returns a full week at a time, so we only need
+  # to fetch each unique week-start. But for simplicity, we fetch per
+  # week-start (Monday) and collect all dates in range.
+
+  # Collect unique week-start dates (the API shows Mon-Sun for a given passDate)
+  local week_starts
+  week_starts=$(/usr/bin/perl -e '
+    use POSIX qw(mktime strftime);
+    my %seen;
+    my ($fy,$fm,$fd) = split(/-/, $ARGV[0]);
+    my ($ty,$tm,$td) = split(/-/, $ARGV[1]);
+    my $cur = mktime(0,0,12,$fd,$fm-1,$fy-1900);
+    my $end = mktime(0,0,12,$td,$tm-1,$ty-1900);
+    while ($cur <= $end) {
+      my @t = localtime($cur);
+      # wday: 0=Sun..6=Sat -> offset to Monday
+      my $dow = $t[6];
+      my $mon_offset = ($dow == 0) ? -6 : (1 - $dow);
+      my $monday = $cur + $mon_offset * 86400;
+      my $key = strftime("%Y-%m-%d", localtime($monday));
+      print "$key\n" unless $seen{$key}++;
+      $cur += 86400;
+    }
+  ' "$from_date" "$to_date")
+
+  echo "Searching $address from $from_date to $to_date..."
+  echo ""
+
+  for gid in $group_ids; do
+    # Get group name
+    local group_name
+    group_name=$(fetch_ajax "$BASE/CustomerBooking/CustomerLocationGroups?categoryId=$CATEGORY_ID" | /usr/bin/perl -0777 -e '
+      my $html = <STDIN>;
+      my $target = $ARGV[0];
+      if ($html =~ /bookingGroupId=\Q$target\E.*?>(Professorslingan\s+\d+)\s*<br\s*\/?>\s*(Grupp\s+\d+)/s) {
+        print "$1 $2";
+      }
+    ' "$gid")
+
+    for week in $week_starts; do
+      local page
+      page=$(fetch "$BASE/CustomerBooking/BookingCalendar?bookingGroupId=$gid&passDate=$week")
+
+      echo "$page" | /usr/bin/perl -e '
+        my $html = do { local $/; <STDIN> };
+        my $from = $ARGV[0];
+        my $to = $ARGV[1];
+        my $group_name = $ARGV[2];
+        my $gid = $ARGV[3];
+
+        my %months = (January=>1,February=>2,March=>3,April=>4,May=>5,June=>6,
+                      July=>7,August=>8,September=>9,October=>10,November=>11,December=>12);
+
+        # Map start times to passNo
+        my %time_to_pass = ("07:00"=>0,"09:00"=>1,"11:00"=>2,"13:00"=>3,
+                            "15:00"=>4,"17:00"=>5,"19:00"=>6,"21:00"=>7,
+                            "01:00"=>8,"03:00"=>9,"05:00"=>10);
+
+        while ($html =~ /aria-label="Book\s+(Grupp \d+)\s+(\d+)\s+(\w+)\s+(\d+)\s+(\d{2}:\d{2})\s+To\s+(\d{2}:\d{2})"/g) {
+          my ($group, $day, $mon_name, $year, $t_from, $t_to) = ($1, $2, $3, $4, $5, $6);
+          my $m = $months{$mon_name} // next;
+          my $date_str = sprintf("%04d-%02d-%02d", $year, $m, $day);
+          next if $date_str lt $from || $date_str gt $to;
+
+          my $pass = $time_to_pass{$t_from} // "?";
+          printf "  %s  %s-%s  %-30s  (book: laundry book %s %s %s)\n",
+            $date_str, $t_from, $t_to, $group_name, $gid, $date_str, $pass;
+        }
+      ' "$from_date" "$to_date" "$group_name" "$gid"
+    done
+  done
+}
+
+cmd_book() {
+  local group_id="${1:?Usage: laundry book GROUP_ID DATE PASS_NO}"
+  local date="${2:?Usage: laundry book GROUP_ID DATE PASS_NO}"
+  local pass_no="${3:?Usage: laundry book GROUP_ID DATE PASS_NO}"
+  ensure_login
+
+  # Visit calendar page first (sets server-side session state)
+  fetch -o /dev/null "$BASE/CustomerBooking/BookingCalendar?bookingGroupId=$group_id&passDate=$date"
+
+  local result
+  result=$(curl -s -b "$COOKIE_FILE" -c "$COOKIE_FILE" \
+    -H "User-Agent: $UA" \
+    -H "X-Requested-With: XMLHttpRequest" \
+    -H "Referer: $BASE/CustomerBooking/BookingCalendar?bookingGroupId=$group_id&passDate=$date" \
+    -D - \
+    "$BASE/CustomerBooking/Book?passNo=$pass_no&passDate=$date&bookingGroupId=$group_id")
+
+  if echo "$result" | grep -q '"OK"'; then
+    echo "Booked successfully!"
+  elif echo "$result" | grep -q "HTTP/2 302"; then
+    # 302 redirect typically means the booking went through
+    echo "Booked! (verify with: laundry bookings)"
+  else
+    echo "Booking may have failed. Response:"
+    echo "$result" | head -5
+  fi
+}
+
+cmd_cancel() {
+  local group_id="${1:?Usage: laundry cancel GROUP_ID DATE PASS_NO}"
+  local date="${2:?Usage: laundry cancel GROUP_ID DATE PASS_NO}"
+  local pass_no="${3:?Usage: laundry cancel GROUP_ID DATE PASS_NO}"
+  ensure_login
+
+  # Load the calendar page to find the booking ID for this slot
+  local calendar
+  calendar=$(fetch "$BASE/CustomerBooking/BookingCalendar?bookingGroupId=$group_id&passDate=$date")
+
+  # Extract the unbook URL which contains the booking ID
+  # Format: /AptusPortal/CustomerBooking/Unbook/BOOKING_ID?passDate=DATE&bookingGroupId=GID
+  local time_labels=("07:00" "09:00" "11:00" "13:00" "15:00" "17:00" "19:00" "21:00")
+  local slot_time="${time_labels[$pass_no]:-}"
+
+  local unbook_url
+  unbook_url=$(echo "$calendar" | /usr/bin/perl -0777 -e '
+    my $html = <STDIN>;
+    my $date = $ARGV[0];
+    my $gid = $ARGV[1];
+    my $time = $ARGV[2];
+    if ($html =~ m{(/AptusPortal/CustomerBooking/Unbook/\d+\?passDate=\Q$date\E&bookingGroupId=\Q$gid\E).*?\Q$time\E}s) {
+      print $1;
+    }
+  ' "$date" "$group_id" "$slot_time")
+
+  if [[ -z "$unbook_url" ]]; then
+    echo "Could not find your booking for passNo=$pass_no on $date at group $group_id."
+    echo "Are you sure you have a booking there?"
+    exit 1
+  fi
+
+  local result
+  result=$(curl -s -b "$COOKIE_FILE" -c "$COOKIE_FILE" \
+    -H "User-Agent: $UA" \
+    -H "X-Requested-With: XMLHttpRequest" \
+    -H "Referer: $BASE/CustomerBooking/BookingCalendar?bookingGroupId=$group_id&passDate=$date" \
+    -D - \
+    "https://sssb.aptustotal.se$unbook_url")
+
+  if echo "$result" | grep -q '"OK"'; then
+    echo "Cancelled successfully!"
+  elif echo "$result" | grep -q "HTTP/2 302"; then
+    echo "Cancelled! (verify with: laundry bookings)"
+  else
+    echo "Cancellation may have failed. Response:"
+    echo "$result" | head -5
+  fi
+}
+
+# Time slot reference:
+# passNo=0: 07:00-09:00
+# passNo=1: 09:00-11:00
+# passNo=2: 11:00-13:00
+# passNo=3: 13:00-15:00
+# passNo=4: 15:00-17:00
+# passNo=5: 17:00-19:00
+# passNo=6: 19:00-21:00
+# passNo=7: 21:00-23:00
+
+case "${1:-help}" in
+  login)     cmd_login ;;
+  bookings)  cmd_bookings ;;
+  available) cmd_available "${2:-10}" ;;
+  groups)    cmd_groups ;;
+  slots)     cmd_slots "${2:-}" "${3:-}" ;;
+  calendar)  cmd_calendar "${2:-}" ;;
+  search)    cmd_search "${2:-}" "${3:-}" "${4:-}" ;;
+  book)      cmd_book "${2:-}" "${3:-}" "${4:-}" ;;
+  cancel)    cmd_cancel "${2:-}" "${3:-}" "${4:-}" ;;
+  help|*)
+    cat <<'USAGE'
+SSSB Laundry Booking CLI
+
+Usage: laundry <command> [args]
+
+Commands:
+  login                    Login (saves session)
+  bookings                 Show your current/past bookings
+  available [N]            Show first N available slots (default 10)
+  groups                   List all laundry room groups with IDs
+  slots <GROUP_ID> <DATE>  Show time slots for a group on a date
+  calendar <GROUP_ID>      Show which weeks have free slots
+  search <ADDR> <FROM> <TO>  Find all free slots at an address in a date range
+  book <GROUP_ID> <DATE> <PASS_NO>    Book a time slot
+  cancel <GROUP_ID> <DATE> <PASS_NO>  Cancel a booking
+
+Time slots (PASS_NO):
+  0: 07:00-09:00    4: 15:00-17:00
+  1: 09:00-11:00    5: 17:00-19:00
+  2: 11:00-13:00    6: 19:00-21:00
+  3: 13:00-15:00    7: 21:00-23:00
+
+Examples:
+  laundry login
+  laundry available
+  laundry groups
+  laundry search 39 2026-03-16 2026-03-20
+  laundry slots 48 2026-03-16
+  laundry book 48 2026-03-16 5      # Book 17:00-19:00 at Grupp 7
+  laundry cancel 48 2026-03-16 5
+USAGE
+    ;;
+esac

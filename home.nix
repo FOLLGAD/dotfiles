@@ -60,11 +60,13 @@ in
     wget
     git
     
+    # Media
+    yt-dlp
+
     # Development tools
+    bun
     claude-code
     gh
-
-    # Optional: Add more packages as needed
   ] ++ lib.optionals (!isDarwin) [
     # Linux-specific packages
     beeper
