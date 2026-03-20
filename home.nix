@@ -159,6 +159,22 @@ in
       export CASE_SENSITIVE="true"
       setopt nocaseglob
 
+      # SSH: set TERM to xterm-256color on remote hosts that lack ghostty terminfo
+      ssh() {
+        TERM=xterm-256color command ssh "$@"
+      }
+
+      # Install ghostty terminfo on a remote host (run once per host)
+      ssh-fix-term() {
+        if [ -z "$1" ]; then
+          echo "Usage: ssh-fix-term <host>"
+          echo "Installs ghostty terminfo on remote host so you can use TERM=xterm-ghostty"
+          return 1
+        fi
+        infocmp -x xterm-ghostty | command ssh "$@" tic -x -
+        echo "Done! Ghostty terminfo installed on $1"
+      }
+
       # Custom functions
       copyfile() {
         if [[ -f "$1" ]]; then
@@ -248,6 +264,43 @@ in
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+  };
+
+  # SSH configuration
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    includes = [
+      "/Users/emil/.config/colima/ssh_config"
+    ];
+    extraConfig = ''
+      IdentitiesOnly yes
+    '';
+    matchBlocks = {
+      "*" = {
+        addKeysToAgent = "yes";
+        serverAliveInterval = 60;
+        serverAliveCountMax = 3;
+        controlMaster = "auto";
+        controlPersist = "10m";
+        controlPath = "~/.ssh/sockets/%r@%h-%p";
+      };
+      "local.lovable.dev" = {
+        hostname = "localhost";
+        port = 2322;
+        identityFile = "~/.ssh/id_localtunnel";
+        user = "emil";
+        forwardAgent = true;
+        extraOptions = {
+          ExitOnForwardFailure = "yes";
+        };
+      };
+      "ordenador" = {
+        hostname = "base.neostack.io";
+        port = 2234;
+        identityFile = "~/.ssh/ordo_ed25519";
+      };
+    };
   };
 
   # Direnv
