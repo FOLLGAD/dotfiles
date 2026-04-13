@@ -52,6 +52,7 @@ in
   home.packages = with pkgs; [
     # CLI tools
     bat
+    btop
     fd
     ripgrep
     fzf
@@ -308,6 +309,11 @@ in
     enable = true;
     enableZshIntegration = true;
     nix-direnv.enable = true;
+    config.global.hide_env_diff = true;
+    package = pkgs.direnv.overrideAttrs (old: {
+      env = (old.env or {}) // { CGO_ENABLED = "1"; };
+      ldflags = builtins.filter (f: !lib.hasPrefix "-linkmode" f) (old.ldflags or []);
+    });
   };
 
   # Atuin - shell history
