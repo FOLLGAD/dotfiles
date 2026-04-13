@@ -32,6 +32,15 @@ in
     fi
   '';
 
+  home.activation.defaultVideoPlayer = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if [ "$(uname)" = "Darwin" ]; then
+      echo "Setting mpv as default video player..."
+      for ext in avi flv mkv mov mp4 m4v webm wmv; do
+        ${pkgs.duti}/bin/duti -s io.mpv .$ext all
+      done
+    fi
+  '';
+
   home.activation.tapToClick = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     # Only run on macOS
     if [ "$(uname)" = "Darwin" ]; then
@@ -62,17 +71,20 @@ in
     git
     
     # Media
+    mpv
     yt-dlp
 
     # Development tools
     bun
     claude-code
     gh
+    uv
   ] ++ lib.optionals (!isDarwin) [
     # Linux-specific packages
     beeper
   ] ++ lib.optionals isDarwin [
     aerospace
+    duti
     # macOS-specific packages (ghostty installed via homebrew)
   ] ++ lib.optionals (ghostty != null && !isDarwin) [
     # Ghostty from flake (Linux only - macOS uses homebrew cask)
@@ -249,6 +261,8 @@ in
       myip = "curl ifconfig.me";
       m = "mv -vn";
       hg = "kitty +kitten hyperlinked_grep";
+    } // lib.optionalAttrs isDarwin {
+      clipfile = "f() { osascript -e \"set the clipboard to POSIX file \\\"$(realpath \"$1\")\\\"\"; }; f";
     } // lib.optionalAttrs (!isDarwin) {
       open = "xdg-open";
     };

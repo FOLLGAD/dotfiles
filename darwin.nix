@@ -40,6 +40,7 @@
       "granola"
       "raycast"
       "spotify"
+      "tailscale-app"
     ];
   };
 
@@ -47,6 +48,8 @@
     enableKeyMapping = true;
     remapCapsLockToEscape = true;
   };
+
+  system.defaults.menuExtraClock.ShowSeconds = true;
 
   # This tracks backwards-incompatible nix-darwin defaults.
   system.stateVersion = 5;
