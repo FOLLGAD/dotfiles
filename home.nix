@@ -69,13 +69,19 @@ in
     curl
     wget
     git
-    
+    git-lfs
+
     # Media
+    ffmpeg
     mpv
+    qbittorrent-nox
     yt-dlp
 
     # Development tools
     bun
+    nodejs_24
+    cargo
+    rustc
     claude-code
     gh
     uv
@@ -94,6 +100,7 @@ in
   # Git configuration
   programs.git = {
     enable = true;
+    lfs.enable = true;
     # You can add your git config here
     settings.user = {
       name = "Emil Ahlbäck";
@@ -128,7 +135,7 @@ in
       export BAT_THEME="gruvbox-light"
       export LANG=en_US.UTF-8
       export EDITOR="nvim"
-      export PATH="/opt/homebrew/bin:$PATH:$HOME/.local/bin:$HOME/.dotfiles/scripts"
+      export PATH="$HOME/.cache/.bun/bin:/opt/homebrew/bin:$PATH:$HOME/.local/bin:$HOME/.dotfiles/scripts"
 
       # Markfile functionality
       export MARKFILE=$HOME/.marks
@@ -279,6 +286,8 @@ in
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    withRuby = false;
+    withPython3 = false;
   };
 
   # SSH configuration
@@ -291,29 +300,27 @@ in
     extraConfig = ''
       IdentitiesOnly yes
     '';
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
-        serverAliveInterval = 60;
-        serverAliveCountMax = 3;
-        controlMaster = "auto";
-        controlPersist = "10m";
-        controlPath = "~/.ssh/sockets/%r@%h-%p";
+        AddKeysToAgent = "yes";
+        ServerAliveInterval = 60;
+        ServerAliveCountMax = 3;
+        ControlMaster = "auto";
+        ControlPersist = "10m";
+        ControlPath = "~/.ssh/sockets/%r@%h-%p";
       };
       "local.lovable.dev" = {
-        hostname = "localhost";
-        port = 2322;
-        identityFile = "~/.ssh/id_localtunnel";
-        user = "emil";
-        forwardAgent = true;
-        extraOptions = {
-          ExitOnForwardFailure = "yes";
-        };
+        HostName = "localhost";
+        Port = 2322;
+        IdentityFile = "~/.ssh/id_localtunnel";
+        User = "emil";
+        ForwardAgent = true;
+        ExitOnForwardFailure = "yes";
       };
       "ordenador" = {
-        hostname = "base.neostack.io";
-        port = 2234;
-        identityFile = "~/.ssh/ordo_ed25519";
+        HostName = "base.neostack.io";
+        Port = 2234;
+        IdentityFile = "~/.ssh/ordo_ed25519";
       };
     };
   };

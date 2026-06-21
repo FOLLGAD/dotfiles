@@ -1,4 +1,4 @@
-{ pkgs, ghostty, ... }:
+{ pkgs, ghostty, aerospacePkg, ... }:
 {
   # Nix settings (nix-daemon is now managed automatically)
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -20,7 +20,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit ghostty; };
+    extraSpecialArgs = { inherit ghostty aerospacePkg; };
     backupFileExtension = "backup";
     users.emil = import ./home.nix;
   };
@@ -38,6 +38,7 @@
       "ghostty"
       "google-chrome"
       "granola"
+      "qbittorrent"
       "raycast"
       "spotify"
       "tailscale-app"
