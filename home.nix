@@ -35,8 +35,10 @@ in
   home.activation.defaultVideoPlayer = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if [ "$(uname)" = "Darwin" ]; then
       echo "Setting mpv as default video player..."
+      # .mkv has no static UTI on macOS (nixpkgs mpv.app imports but doesn't
+      # export org.matroska.mkv), so duti fails with -50; ignore per-ext errors.
       for ext in avi flv mkv mov mp4 m4v webm wmv; do
-        ${pkgs.duti}/bin/duti -s io.mpv .$ext all
+        ${pkgs.duti}/bin/duti -s io.mpv .$ext all 2>/dev/null || true
       done
     fi
   '';
@@ -318,7 +320,7 @@ in
         ExitOnForwardFailure = "yes";
       };
       "ordenador" = {
-        HostName = "base.neostack.io";
+        HostName = "home.emil.zip";
         Port = 2234;
         IdentityFile = "~/.ssh/ordo_ed25519";
       };
