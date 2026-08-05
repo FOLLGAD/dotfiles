@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dotfiles Dependency Dashboard</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #161922;
+    --surface2: #1e2130;
+    --border: #2a2d3e;
+    --text: #e1e4ed;
+    --text-dim: #8b8fa7;
+    --accent: #7c6ef0;
+    --accent-glow: rgba(124, 110, 240, 0.15);
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --rose: #fb7185;
+    --cyan: #22d3ee;
+    --pink: #f472b6;
+    --orange: #fb923c;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  .header {
+    padding: 2.5rem 2rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  .header p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 1rem;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-bar input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.85rem;
+    color: var(--text);
+    font-size: 0.85rem;
+    outline: none;
+    width: 240px;
+    transition: border-color 0.2s;
+  }
+
+  .filter-bar input:focus {
+    border-color: var(--accent);
+  }
+
+  .filter-bar input::placeholder {
+    color: var(--text-dim);
+  }
+
+  .chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    color: var(--text-dim);
+  }
+
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    padding: 0 2rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 1.15rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex: 1;
+  }
+
+  .section-count {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .dep-list {
+    list-style: none;
+    padding: 0.35rem 0;
+  }
+
+  .dep-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 1.15rem;
+    transition: background 0.15s;
+  }
+
+  .dep-item:hover {
+    background: var(--surface2);
+  }
+
+  .dep-item.hidden {
+    display: none;
+  }
+
+  .dep-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dep-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dep-name a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .dep-name a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .dep-meta {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .tag-nix       { background: rgba(74, 222, 128, 0.12); color: var(--green); }
+  .tag-brew      { background: rgba(251, 191, 36, 0.12); color: var(--amber); }
+  .tag-cask      { background: rgba(251, 146, 60, 0.12); color: var(--orange); }
+  .tag-flake     { background: rgba(124, 110, 240, 0.12); color: var(--accent); }
+  .tag-plugin    { background: rgba(34, 211, 238, 0.12); color: var(--cyan); }
+  .tag-program   { background: rgba(244, 114, 182, 0.12); color: var(--pink); }
+  .tag-script    { background: rgba(251, 113, 133, 0.12); color: var(--rose); }
+
+  .empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+
+  .section.hidden-section {
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    .header, .stats-bar, .filter-bar, .grid {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .filter-bar input {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Dotfiles Dependencies</h1>
+  <p>FOLLGAD/dotfiles &mdash; Nix flakes + Home Manager + Homebrew</p>
+</div>
+
+<div class="stats-bar" id="stats-bar"></div>
+
+<div class="filter-bar">
+  <input type="text" id="search" placeholder="Search dependencies..." autocomplete="off" />
+  <span class="chip active" data-filter="all">All</span>
+  <span class="chip" data-filter="nix">Nix</span>
+  <span class="chip" data-filter="brew">Brew</span>
+  <span class="chip" data-filter="cask">Cask</span>
+  <span class="chip" data-filter="flake">Flake</span>
+  <span class="chip" data-filter="plugin">Plugin</span>
+  <span class="chip" data-filter="program">Program</span>
+  <span class="chip" data-filter="script">Script</span>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const DATA = {
+  "Nix Packages": {
+    icon: "📦",
+    color: "#4ade80",
+    tag: "nix",
+    items: [
+      { name: "bat", desc: "Cat clone with syntax highlighting", url: "https://github.com/sharkdp/bat" },
+      { name: "fd", desc: "Fast find alternative", url: "https://github.com/sharkdp/fd" },
+      { name: "ripgrep", desc: "Fast grep alternative", url: "https://github.com/BurntSushi/ripgrep" },
+      { name: "fzf", desc: "Fuzzy finder", url: "https://github.com/junegunn/fzf" },
+      { name: "jq", desc: "JSON processor", url: "https://github.com/jqlang/jq" },
+      { name: "curl", desc: "URL transfer tool" },
+      { name: "wget", desc: "Network downloader" },
+      { name: "git", desc: "Version control" },
+      { name: "yt-dlp", desc: "Video downloader", url: "https://github.com/yt-dlp/yt-dlp" },
+      { name: "bun", desc: "JavaScript runtime", url: "https://bun.sh" },
+      { name: "claude-code", desc: "Claude AI CLI", url: "https://docs.anthropic.com/en/docs/claude-code" },
+      { name: "gh", desc: "GitHub CLI", url: "https://cli.github.com" },
+      { name: "beeper", desc: "Universal chat app (Linux)", url: "https://beeper.com", meta: "linux" },
+      { name: "aerospace", desc: "Tiling window manager (macOS)", url: "https://github.com/nikitabobko/AeroSpace", meta: "darwin" },
+    ]
+  },
+  "Homebrew Formulae": {
+    icon: "🍺",
+    color: "#fbbf24",
+    tag: "brew",
+    items: [
+      { name: "docker", desc: "Container runtime", url: "https://www.docker.com" },
+      { name: "docker-compose", desc: "Multi-container orchestration", url: "https://docs.docker.com/compose" },
+      { name: "colima", desc: "Container runtimes on macOS", url: "https://github.com/abiosoft/colima" },
+    ]
+  },
+  "Homebrew Casks": {
+    icon: "🖥️",
+    color: "#fb923c",
+    tag: "cask",
+    items: [
+      { name: "beeper", desc: "Universal messaging", url: "https://beeper.com" },
+      { name: "ghostty", desc: "GPU-accelerated terminal", url: "https://ghostty.org" },
+      { name: "google-chrome", desc: "Web browser" },
+      { name: "granola", desc: "AI meeting notes", url: "https://granola.ai" },
+      { name: "raycast", desc: "Launcher & productivity", url: "https://raycast.com" },
+      { name: "spotify", desc: "Music streaming", url: "https://spotify.com" },
+    ]
+  },
+  "Flake Inputs": {
+    icon: "❄️",
+    color: "#7c6ef0",
+    tag: "flake",
+    items: [
+      { name: "nixpkgs", desc: "Nix packages collection (unstable)", url: "https://github.com/NixOS/nixpkgs", meta: "nixpkgs-unstable" },
+      { name: "localpkgs", desc: "Secondary nixpkgs input", url: "https://github.com/NixOS/nixpkgs", meta: "nixos-unstable" },
+      { name: "home-manager", desc: "User environment management", url: "https://github.com/nix-community/home-manager" },
+      { name: "nix-darwin", desc: "macOS system configuration", url: "https://github.com/LnL7/nix-darwin" },
+      { name: "ghostty", desc: "Ghostty terminal flake", url: "https://github.com/ghostty-org/ghostty" },
+    ]
+  },
+  "Neovim Plugins": {
+    icon: "✏️",
+    color: "#22d3ee",
+    tag: "plugin",
+    items: [
+      { name: "packer.nvim", desc: "Plugin manager", url: "https://github.com/wbthomason/packer.nvim" },
+      { name: "plenary.nvim", desc: "Lua utility library", url: "https://github.com/nvim-lua/plenary.nvim" },
+      { name: "nvim-web-devicons", desc: "File type icons", url: "https://github.com/nvim-tree/nvim-web-devicons" },
+      { name: "diffview.nvim", desc: "Git diff viewer", url: "https://github.com/sindrets/diffview.nvim" },
+    ]
+  },
+  "Home Manager Programs": {
+    icon: "⚙️",
+    color: "#f472b6",
+    tag: "program",
+    items: [
+      { name: "zsh", desc: "Shell with oh-my-zsh, vi-mode, syntax highlighting" },
+      { name: "neovim", desc: "Editor (default, with vi/vim aliases)" },
+      { name: "git", desc: "Version control (Emil Ahlbäck <me@emil.zip>)" },
+      { name: "ssh", desc: "SSH client with multiplexing" },
+      { name: "direnv", desc: "Per-directory environments with nix-direnv" },
+      { name: "atuin", desc: "Shell history search (fuzzy, sync off)", url: "https://github.com/atuinsh/atuin" },
+      { name: "home-manager", desc: "Self-managed" },
+      { name: "obsidian", desc: "Note-taking (vault: Documents/Obsidian/master)", url: "https://obsidian.md" },
+    ]
+  },
+  "Oh-My-Zsh Plugins": {
+    icon: "🐚",
+    color: "#22d3ee",
+    tag: "plugin",
+    items: [
+      { name: "git", desc: "Git aliases & functions", url: "https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git" },
+      { name: "vi-mode", desc: "Vi keybindings in shell", url: "https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode" },
+    ]
+  },
+  "MPV Scripts": {
+    icon: "🎬",
+    color: "#fb7185",
+    tag: "script",
+    items: [
+      { name: "auto-save-state", desc: "Conditional watch-later save" },
+      { name: "autosub", desc: "Auto-download subtitles via subliminal" },
+      { name: "navigator", desc: "File browser overlay", url: "https://github.com/donmaiq/mpv-filenavigator" },
+    ]
+  },
+  "Custom Scripts": {
+    icon: "🔧",
+    color: "#fb7185",
+    tag: "script",
+    items: [
+      { name: "laundry", desc: "SSSB Aptus laundry booking CLI" },
+    ]
+  }
+};
+
+function render() {
+  const grid = document.getElementById("grid");
+  const statsBar = document.getElementById("stats-bar");
+
+  // Stats
+  let totalDeps = 0;
+  const tagCounts = {};
+  for (const [, section] of Object.entries(DATA)) {
+    totalDeps += section.items.length;
+    tagCounts[section.tag] = (tagCounts[section.tag] || 0) + section.items.length;
+  }
+  const sectionCount = Object.keys(DATA).length;
+
+  statsBar.innerHTML = `
+    <div class="stat"><div class="stat-value">${totalDeps}</div><div class="stat-label">Total Dependencies</div></div>
+    <div class="stat"><div class="stat-value">${sectionCount}</div><div class="stat-label">Categories</div></div>
+    <div class="stat"><div class="stat-value">${tagCounts.nix || 0}</div><div class="stat-label">Nix Packages</div></div>
+    <div class="stat"><div class="stat-value">${(tagCounts.brew || 0) + (tagCounts.cask || 0)}</div><div class="stat-label">Homebrew</div></div>
+    <div class="stat"><div class="stat-value">${tagCounts.plugin || 0}</div><div class="stat-label">Plugins</div></div>
+  `;
+
+  // Sections
+  grid.innerHTML = "";
+  for (const [title, section] of Object.entries(DATA)) {
+    const sec = document.createElement("div");
+    sec.className = "section";
+    sec.dataset.tag = section.tag;
+
+    let listHTML = "";
+    for (const item of section.items) {
+      const nameHTML = item.url
+        ? `<a href="${item.url}" target="_blank" rel="noopener">${item.name}</a>`
+        : item.name;
+      const metaHTML = item.meta ? `<span class="dep-meta">${item.meta}</span>` : "";
+      listHTML += `
+        <li class="dep-item" data-search="${item.name.toLowerCase()} ${item.desc.toLowerCase()}">
+          <span class="dep-dot" style="background:${section.color}"></span>
+          <span class="dep-name" title="${item.desc}">${nameHTML}</span>
+          ${metaHTML}
+          <span class="tag tag-${section.tag}">${section.tag}</span>
+        </li>`;
+    }
+
+    sec.innerHTML = `
+      <div class="section-header">
+        <span class="section-icon" style="background:${section.color}22">${section.icon}</span>
+        <span class="section-title">${title}</span>
+        <span class="section-count">${section.items.length}</span>
+      </div>
+      <ul class="dep-list">${listHTML}</ul>`;
+
+    grid.appendChild(sec);
+  }
+}
+
+// Filtering
+function applyFilters() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const activeChip = document.querySelector(".chip.active");
+  const filter = activeChip ? activeChip.dataset.filter : "all";
+
+  document.querySelectorAll(".section").forEach(sec => {
+    const tag = sec.dataset.tag;
+    const items = sec.querySelectorAll(".dep-item");
+    let visibleCount = 0;
+
+    items.forEach(item => {
+      const matchTag = filter === "all" || tag === filter;
+      const matchSearch = !query || item.dataset.search.includes(query);
+      const show = matchTag && matchSearch;
+      item.classList.toggle("hidden", !show);
+      if (show) visibleCount++;
+    });
+
+    sec.classList.toggle("hidden-section", visibleCount === 0);
+    const countEl = sec.querySelector(".section-count");
+    if (countEl) countEl.textContent = visibleCount;
+  });
+}
+
+document.getElementById("search").addEventListener("input", applyFilters);
+
+document.querySelectorAll(".chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    applyFilters();
+  });
+});
+
+render();
+</script>
+</body>
+</html>
