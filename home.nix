@@ -2,6 +2,11 @@
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
+  # mkOutOfStoreSymlink with a *relative* path (./nvim) imports the files into
+  # the nix store first, so the symlink points at the store copy and edits to
+  # this repo don't go live until the next rebuild. An absolute string path
+  # keeps the link pointed at the working tree, which is the whole point.
+  dotfiles = "${config.home.homeDirectory}/.dotfiles";
 in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -80,6 +85,7 @@ in
     yt-dlp
 
     # Development tools
+    neovim
     bun
     nodejs_24
     cargo
@@ -259,6 +265,7 @@ in
 
     shellAliases = {
       vim = "nvim";
+      vi = "nvim";
       "." = "source";
       ".." = "cd ..";
       "..." = "cd ../..";
@@ -282,15 +289,11 @@ in
     };
   };
 
-  # Neovim configuration
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-    withRuby = false;
-    withPython3 = false;
-  };
+  # Neovim is installed as a plain package (see home.packages) rather than via
+  # programs.neovim: that module also generates .config/nvim/init.lua, which
+  # collides with the out-of-store symlink that points .config/nvim at this
+  # repo's nvim/ directory. EDITOR and the vim/vi aliases are set in the zsh
+  # block above, which is all programs.neovim was providing here.
 
   # SSH configuration
   programs.ssh = {
@@ -323,6 +326,11 @@ in
         HostName = "home.emil.zip";
         Port = 2234;
         IdentityFile = "~/.ssh/ordo_ed25519";
+        # Starlink: brief dropouts are common; detect faster but tolerate longer
+        ServerAliveInterval = 15;
+        ServerAliveCountMax = 6;
+        TCPKeepAlive = "yes";
+        Compression = "yes";
       };
     };
   };
@@ -357,17 +365,17 @@ in
   home.file = {
     # Config directories
     ".config/nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink ./nvim;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim";
     };
     ".config/mpv" = {
-      source = config.lib.file.mkOutOfStoreSymlink ./mpv;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/mpv";
     };
     ".config/ghostty" = {
-      source = config.lib.file.mkOutOfStoreSymlink ./ghostty;
+      source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/ghostty";
     };
   } // lib.optionalAttrs isDarwin {
-    ".aerospace.toml".source = config.lib.file.mkOutOfStoreSymlink ./aerospace/aerospace.toml;
-    "Library/Application Support/Cursor/User/keybindings.json".source = config.lib.file.mkOutOfStoreSymlink ./cursor/keybindings.json;
+    ".aerospace.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/aerospace/aerospace.toml";
+    "Library/Application Support/Cursor/User/keybindings.json".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/cursor/keybindings.json";
   };
 
   # XDG Base Directory specification
