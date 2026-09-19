@@ -121,6 +121,7 @@ automatically-unhide-macos-hidden-apps = true
     ctrl-h = 'workspace prev'
     ctrl-l = 'workspace next'
 
+    alt-0 = 'workspace E2E' # test/automation windows land here (see on-window-detected below)
     alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
     alt-b = 'workspace B'
     alt-c = 'workspace Communications'
@@ -142,6 +143,7 @@ automatically-unhide-macos-hidden-apps = true
     alt-z = 'workspace Z'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+    alt-shift-0 = 'move-node-to-workspace E2E'
     alt-shift-a = 'move-node-to-workspace A'
     alt-shift-b = 'move-node-to-workspace B'
     alt-shift-c = 'move-node-to-workspace Communications'
@@ -212,4 +214,25 @@ automatically-unhide-macos-hidden-apps = true
 
 [[on-window-detected]]
     if.app-id = 'com.electron.wispr-flow'
+    if.window-title-regex-substring = 'Status'
     run = ["layout floating"]
+
+# Every Energy build EXCEPT the installed /Applications/Energy.app (io.fant.colleague)
+# gets parked on E2E, so agent/test/dev runs stop stealing the current workspace.
+# Bundle ids seen in the wild:
+#   io.fant.colleague                          real app  -> left alone
+#   com.getenergy.desktop.dev.<worktree-hash>  dev build -> hash varies, matched by app name
+#   io.fant.energy.startup-check               startup check
+#   com.github.Electron                        unpackaged electron-vite / Playwright runs
+
+[[on-window-detected]]
+    if.app-id = 'com.github.Electron'
+    run = ['move-node-to-workspace E2E']
+
+[[on-window-detected]]
+    if.app-id = 'io.fant.energy.startup-check'
+    run = ['move-node-to-workspace E2E']
+
+[[on-window-detected]]
+    if.app-name-regex-substring = 'Energy Dev'
+    run = ['move-node-to-workspace E2E']
